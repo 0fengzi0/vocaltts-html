@@ -209,7 +209,7 @@
                 // 历史TTS文本
                 oldTtsText: '',
                 // 选中的发音人
-                chickId: 1,
+                chickId: 0,
                 // 消息弹窗是否显示
                 msgModalShow: false,
                 // 消息弹窗内容
