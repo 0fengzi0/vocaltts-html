@@ -141,8 +141,8 @@
                         </div>
                         <div class="modalMsg" @click="updatevcode()"><img id="vcode" :src="vcodeImgUrl" alt="" /></div>
                         <div class="inputDiv">
-                            <input id="vcodeInput" type="text" maxlength="4" />
-                            <input id="vcodeSubmit" type="button" value="提交" />
+                            <input id="vcodeInput" type="text" maxlength="4" @input="getInputVcode" />
+                            <input id="vcodeSubmit" type="button" value="提交" @click="doSynth" />
                         </div>
                     </div>
                 </div>
@@ -171,39 +171,12 @@
                         headimg: 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
                         presentation: '该音源为T2音源',
                         status: 'true'
-                    },
-                    {
-                        id: '2',
-                        code: 'lty',
-                        name: '洛天依',
-                        version: 't2',
-                        headimg: 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
-                        presentation: '该音源为T2音源',
-                        status: 'true'
-                    },
-                    {
-                        id: '3',
-                        code: 'lty',
-                        name: '洛天依',
-                        version: 't2',
-                        headimg: 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
-                        presentation: '该音源为T2音源',
-                        status: 'false'
-                    },
-                    {
-                        id: '4',
-                        code: 'lty',
-                        name: '洛天依',
-                        version: 't2',
-                        headimg: 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
-                        presentation: '该音源为T2音源',
-                        status: 'true'
                     }
                 ],
                 // tts状态 0合成1播放2停止
                 audioStatus: 1,
                 // 合成后的音频文件名
-                waveName: 'http://tts.5ixf.cc/audio/helloLastDream.wav',
+                wavePath: 'http://tts.5ixf.cc/audio/helloLastDream.wav',
                 // 输入的TTS文本
                 inputTtsText: '',
                 // 历史TTS文本
@@ -220,7 +193,9 @@
                 // 验证码图片地址
                 vcodeImgUrl: '',
                 // 验证码弹窗是否显示
-                vcodeModalShow: false
+                vcodeModalShow: false,
+                // 输入的验证码
+                inputVcode: ''
             };
         },
 
@@ -244,9 +219,7 @@
 
             // 播放
             startWave() {
-                // this.$refs.audio.src = this.serviceApi + 'wave/' + this.tts_wave_path;
-                this.$refs.audio.src = this.waveName;
-                this.waveName = this.$refs.audio.src;
+                this.$refs.audio.src = this.wavePath;
                 this.$refs.audio.play();
             },
 
@@ -279,7 +252,7 @@
 
             // 下载合成的音频
             downLoadTTSFile() {
-                window.open(this.waveName);
+                window.open(this.wavePath);
             },
 
             // 点击播放按钮
@@ -290,10 +263,6 @@
                             // 显示验证码
                             this.vcodeModalShow = true;
                             this.updatevcode();
-                            // 获取输入的验证码
-                            // 提交到接口
-                            // 播放声音
-                            this.startWave();
                         } else {
                             // 播放tts
                             this.startWave();
@@ -325,38 +294,73 @@
 
             // 提交合成信息
             doSynth() {
-                this.axios.post(config.serviceApi + 'vocaltts/synth/dosynth', {
-                    app: 'web',
-                    uid: config.appid,
-                    version: this.vocalList[this.chickId]['version'],
-                    voice: this.vocalList[this.chickId]['code'],
-                    text: this.inputTtsText,
-                    vel: '',
-                    vol: '',
-                    pit: '',
-                    time: new Date().getTime(),
-                    randstr: '',
-                }).then(function (res) {
-
+                let that = this;
+                var qs = require('qs');
+                this.axios.post(config.serviceApi + 'vocaltts/synth/dosynth', qs.stringify({
+                    'app': 'web',
+                    'uid': config.appid,
+                    'version': that.vocalList[that.chickId]['version'],
+                    'voice': that.vocalList[that.chickId]['code'],
+                    'text': that.inputTtsText,
+                    'vel': '0',
+                    'vol': '0',
+                    'pit': '0',
+                    'time': new Date().getTime(),
+                    'randstr': that.inputVcode,
+                })).then(function (res) {
+                    console.log(res.data);
+                    if (res.data.code == 200) {
+                        that.wavePath = config.serviceApi + "vocaltts/synth/getwave/wave/" + res.data.fileName;
+                        // 播放声音
+                        // that.startWave();
+                    } else {
+                        that.msgModal = {
+                            title: '合成失败',
+                            msg: res.data.msg
+                        };
+                        that.msgModalShow = true;
+                    }
                 }).catch(function (res) {
-
+                    that.msgModal = {
+                        title: '合成失败',
+                        msg: '出现未知错误'
+                    };
+                    that.msgModalShow = true;
                 })
             },
 
             // 获取发音人列表
             getVocaList() {
+                let that = this;
                 this.axios
-                    .post(config.serviceApi + 'vocaltts/voca/getvocalist', {})
+                    .post(config.serviceApi + 'vocaltts/voca/getvocalist')
                     .then(function (res) {
                         if (res.data.code == 200) {
-                            this.vocalList = res.data.data;
+                            that.vocalList = res.data.data;
                         } else {
-                            console.log('发生错误:' + res.data)
+                            console.log('发生错误:' + res.data);
+                            that.msgModal = {
+                                title: '获取发音人列表失败',
+                                msg: res.data.msg
+                            };
+                            that.msgModalShow = true;
                         }
                     })
                     .catch(function (res) {
+                        that.msgModal = {
+                            title: '合成失败',
+                            msg: '出现未知错误'
+                        };
+                        that.msgModalShow = true;
                     })
+            },
+
+            // 输入的验证码
+            getInputVcode(e) {
+                this.inputVcode = e.srcElement.value;
             }
+
+
         }
     };
 </script>
