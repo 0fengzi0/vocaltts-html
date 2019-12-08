@@ -23,7 +23,7 @@
                     <div class="textInput"><textarea id="ttsText" maxlength="60" placeholder="请输入要合成的文本"
                                                      @input="updateTtsText"></textarea></div>
                     <div class="ttsConfig">
-                        <div class="ttsConfig-left">
+                        <div class="ttsConfig-left cantChoose">
                             <div class="setting">
                                 <span class="parameterName">语调:</span>
                                 <input class="parameterInput" type="range" name="pit" step="10" min="-100" max="100"
@@ -182,7 +182,7 @@
                 // 历史TTS文本
                 oldTtsText: '',
                 // 选中的发音人
-                chickId: 0,
+                chickId: -1,
                 // 消息弹窗是否显示
                 msgModalShow: false,
                 // 消息弹窗内容
@@ -283,7 +283,7 @@
 
             // 更新验证码
             updatevcode() {
-                this.vcodeImgUrl = config.vcodeImgUrl + '?app=web&uid=' + config.appid + new Date().getTime();
+                this.vcodeImgUrl = config.serviceApi + 'vocaltts/synth/getvcode?app=web&uid=' + config.appid + "&time=" + new Date().getTime();
             },
 
             // 更新输入的合成文本
@@ -295,6 +295,10 @@
             // 提交合成信息
             doSynth() {
                 let that = this;
+                // 关闭弹窗
+                that.vcodeModalShow = false;
+                // 显示合成状态
+                that.onWait();
                 var qs = require('qs');
                 this.axios.post(config.serviceApi + 'vocaltts/synth/dosynth', qs.stringify({
                     'app': 'web',
@@ -308,12 +312,13 @@
                     'time': new Date().getTime(),
                     'randstr': that.inputVcode,
                 })).then(function (res) {
-                    console.log(res.data);
                     if (res.data.code == 200) {
                         that.wavePath = config.serviceApi + "vocaltts/synth/getwave/wave/" + res.data.fileName;
+                        that.oldTtsText = that.inputTtsText;
                         // 播放声音
-                        // that.startWave();
+                        that.startWave();
                     } else {
+                        that.onPause();
                         that.msgModal = {
                             title: '合成失败',
                             msg: res.data.msg
@@ -321,6 +326,7 @@
                         that.msgModalShow = true;
                     }
                 }).catch(function (res) {
+                    that.onPause();
                     that.msgModal = {
                         title: '合成失败',
                         msg: '出现未知错误'
@@ -332,11 +338,14 @@
             // 获取发音人列表
             getVocaList() {
                 let that = this;
+                var qs = require('qs');
                 this.axios
                     .post(config.serviceApi + 'vocaltts/voca/getvocalist')
                     .then(function (res) {
                         if (res.data.code == 200) {
                             that.vocalList = res.data.data;
+                            // 检测并选中第一个可用音源
+                            that.chooseCanUseVoice();
                         } else {
                             console.log('发生错误:' + res.data);
                             that.msgModal = {
@@ -348,7 +357,7 @@
                     })
                     .catch(function (res) {
                         that.msgModal = {
-                            title: '合成失败',
+                            title: '访问出错',
                             msg: '出现未知错误'
                         };
                         that.msgModalShow = true;
@@ -358,8 +367,17 @@
             // 输入的验证码
             getInputVcode(e) {
                 this.inputVcode = e.srcElement.value;
-            }
+            },
 
+            // 首次加载自动选择发音人
+            chooseCanUseVoice() {
+                for (let i = 0; i < this.vocalList.length; i++) {
+                    if (this.vocalList[i].status == 'true') {
+                        this.chickId = i;
+                        break;
+                    }
+                }
+            }
 
         }
     };
