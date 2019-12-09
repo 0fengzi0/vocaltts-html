@@ -50,7 +50,7 @@
                                 <div id="ttsPlay" @click="playTts()">{{ audioStatus == 0 ? '合成中' : audioStatus == 1 ?
                                                                      '播放' : '停止' }}
                                 </div>
-                                <span id="white-space"></span>
+                                <span class="white-space"></span>
                                 <div id="ttsWaveDownload" @click="downLoadTTSFile()">
                                     <svg t="1575004811319" class="icon" viewBox="0 0 1024 1024" version="1.1"
                                          xmlns="http://www.w3.org/2000/svg" p-id="1976" width="50" height="25">
@@ -83,12 +83,12 @@
 					制作与维护：
 					<a target="_Blank" href="https://5ixf.cc">疯子</a>
 				</span>
-                <span id="white-space"></span>
+                <span class="white-space"></span>
                 <span>
 					B站：
 					<a target="_Blank" href="https://space.bilibili.com/13938564">0疯_子0</a>
 				</span>
-                <span id="white-space"></span>
+                <span class="white-space"></span>
                 <span>
 					开源地址：
 					<a target="_Blank" href="https://github.com/0fengzi0/vocaltts-html">Github</a>
@@ -97,13 +97,13 @@
             <p>
                 友情合作：
                 <a target="_Blank" href="http://www.lastdream.net/">语音时代</a>
-                <span id="white-space"></span>
+                <span class="white-space"></span>
                 <a target="_Blank" href="https://space.bilibili.com/42973598">VirtualVocal粉丝大会应援团</a>
-                <span id="white-space"></span>
+                <span class="white-space"></span>
                 <a target="_Blank" href="https://space.bilibili.com/134558">世界协奏之歌</a>
-                <span id="white-space"></span>
+                <span class="white-space"></span>
                 <a target="_Blank" href="https://space.bilibili.com/24921468">呆呆酱机器人</a>
-                <span id="white-space"></span>
+                <span class="white-space"></span>
             </p>
             <p>本站建立时间{{ startDay }}，已提供服务{{ runDays }}天</p>
         </div>
@@ -245,9 +245,11 @@
 
             // 切换发音人
             chickVoice(index) {
-                this.chickId = index;
-                // 清除历史信息
-                this.oldTtsText = '';
+                if (this.vocalList[index].status == 'true') {
+                    this.chickId = index;
+                    // 清除历史信息
+                    this.oldTtsText = '';
+                }
             },
 
             // 下载合成的音频
@@ -407,10 +409,10 @@
         width: 800px;
         height: 400px;
         position: absolute;
-        top: 0px;
-        right: 0px;
-        bottom: 0px;
-        left: 0px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         background: inherit;
         overflow: hidden;
         margin: 1% auto auto auto;
@@ -422,10 +424,10 @@
     .glass::before {
         content: '';
         position: absolute;
-        top: 0px;
-        right: 0px;
-        bottom: 0px;
-        left: 0px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         background: inherit;
         background-attachment: fixed;
         filter: blur(10px);
@@ -452,14 +454,14 @@
         width: 800px;
         position: absolute;
         top: 440px;
-        right: 0px;
-        bottom: 0px;
-        left: 0px;
+        right: 0;
+        bottom: 0;
+        left: 0;
         margin: auto;
         text-align: center;
     }
     
-    #white-space {
+    .white-space {
         margin-left: 5px;
         margin-right: 5px;
     }
@@ -484,7 +486,6 @@
     }
     
     .vocal {
-        margin-right: 17px;
         border: 1px #bfbfbf none;
         border-radius: 5px;
         height: 50px;
@@ -515,10 +516,8 @@
         width: 50px;
         height: 50px;
         float: left;
-        margin: 0px;
-        padding: 0px;
-        margin-left: 5px;
-        margin-right: 5px;
+        margin: 0 5px 0 5px;
+        padding: 0;
     }
     
     #vocalName {
@@ -538,21 +537,20 @@
     }
     
     .textInput {
-        padding: 5px;
+        padding: 5px 5px 10px 5px;
         height: 200px;
         width: 589px;
-        padding-bottom: 10px;
         border-bottom: solid 1px #bfbfbf;
     }
     
     #ttsText {
         width: 570px;
         height: 180px;
-        margin: 0px 0px 0px 5px;
+        margin: 0 0 0 5px;
         padding: 10px;
         resize: none;
         font-size: 23px;
-        border: 0px;
+        border: 0;
         outline: none;
         background-color: rgba(255, 255, 255, 0.5);
         border-radius: 5px;
@@ -585,10 +583,9 @@
     }
     
     .parameterInput {
-        margin: 0px;
+        margin: 16px 0 0 0;
         float: right;
-        margin-top: 16px;
-        width: 179px;
+        width: 175px;
     }
     
     .ttsConfig-right {
@@ -613,7 +610,7 @@
     
     #ttsPlay {
         border: 1px solid #bfbfbf;
-        border-radius: 10px 0px 0px 10px;
+        border-radius: 10px 0 0 10px;
         width: 150px;
         height: 50px;
         float: left;
@@ -625,7 +622,7 @@
     
     #ttsWaveDownload {
         border: 1px solid #bfbfbf;
-        border-radius: 0px 10px 10px 0px;
+        border-radius: 0 10px 10px 0;
         width: 50px;
         height: 50px;
         float: left;
@@ -642,10 +639,10 @@
     .pageWindowBack {
         position: fixed;
         z-index: 2;
-        top: 0px;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.8);
@@ -666,14 +663,14 @@
         z-index: 3;
         width: 400px;
         height: 200px;
-        top: 0px;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
         margin: auto;
         background-color: rgba(255, 255, 255, 0.9);
         border-radius: 10px;
-        box-shadow: 15px 15px 7.5px rgba(0, 0, 0, 0.6);
+        box-shadow: 15px 15px 8px rgba(0, 0, 0, 0.6);
     }
     
     .modalTitle {
@@ -681,7 +678,7 @@
         height: 50px;
         text-align: center;
         font-size: 26px;
-        border-radius: 10px 10px 0px 0px;
+        border-radius: 10px 10px 0 0;
         line-height: 50px;
         background-color: white;
     }
@@ -699,7 +696,7 @@
     }
     
     .modalMsg {
-        width: 398;
+        width: 398px;
         height: 100px;
         text-align: center;
         border: 1px solid #abb2bf;
@@ -710,10 +707,10 @@
     #msgModalBotton {
         width: 100%;
         height: 50px;
-        padding: 5px 0px 5px 0px;
+        padding: 5px 0 5px 0;
         text-align: center;
         line-height: 50px;
-        border-radius: 0px 0px 10px 10px;
+        border-radius: 0 0 10px 10px;
         background-color: white;
         cursor: Pointer;
     }
@@ -741,10 +738,10 @@
         width: 200px;
         height: 60px;
         position: absolute;
-        top: 0px;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
         margin: auto;
     }
 </style>
