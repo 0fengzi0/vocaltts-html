@@ -23,21 +23,21 @@
                     <div class="textInput"><textarea id="ttsText" maxlength="60" placeholder="请输入要合成的文本"
                                                      @input="updateTtsText"></textarea></div>
                     <div class="ttsConfig">
-                        <div class="ttsConfig-left cantChoose">
-                            <div class="setting">
+                        <div class="ttsConfig-left">
+                            <div class="setting cantChoose">
                                 <span class="parameterName">语调:</span>
                                 <input class="parameterInput" type="range" name="pit" step="10" min="-100" max="100"
-                                       value="0" />
+                                       value="0" @input="clickVocaPit" />
                             </div>
                             <div class="setting">
                                 <span class="parameterName">语速:</span>
                                 <input class="parameterInput" type="range" name="vel" step="10" min="-100" max="100"
-                                       value="0" />
+                                       value="0" @input="clickVocaVel" />
                             </div>
                             <div class="setting">
                                 <span class="parameterName">音量:</span>
                                 <input class="parameterInput" type="range" name="vol" step="10" min="-100" max="100"
-                                       value="0" />
+                                       value="0" @input="clickVocaVol" />
                             </div>
                             <div class="setting">
                                 <span class="parameterName">尽请期待...</span>
@@ -106,6 +106,7 @@
                 <span class="white-space"></span>
             </p>
             <p>本站建立时间{{ startDay }}，已提供服务{{ runDays }}天</p>
+            <p>{{pageRecordMsg}}</p>
         </div>
         <transition name="modal">
             <div>
@@ -195,7 +196,14 @@
                 // 验证码弹窗是否显示
                 vcodeModalShow: false,
                 // 输入的验证码
-                inputVcode: ''
+                inputVcode: '',
+                // 备案信息
+                pageRecordMsg: '',
+                ttsParameter: {
+                    pit: 0,
+                    vel: 0,
+                    vol: 0
+                }
             };
         },
 
@@ -205,6 +213,8 @@
             this.countRunDays();
             // 获取发音人列表
             this.getVocaList();
+            // 设置备案信息
+            this.pageRecordMsg = config.recordMsg;
         },
 
         // 其他函数
@@ -241,6 +251,24 @@
             // 当播放开始
             onPlay() {
                 this.audioStatus = 2;
+            },
+
+            // 设置pit参数
+            clickVocaPit(e) {
+                this.ttsParameter.pit = e.srcElement.value;
+                this.oldTtsText = '';
+            },
+
+            // 设置vel参数
+            clickVocaVel(e) {
+                this.ttsParameter.vel = e.srcElement.value;
+                this.oldTtsText = '';
+            },
+
+            // 设置vol参数
+            clickVocaVol(e) {
+                this.ttsParameter.vol = e.srcElement.value;
+                this.oldTtsText = '';
             },
 
             // 切换发音人
@@ -308,9 +336,9 @@
                     'version': that.vocalList[that.chickId]['version'],
                     'voice': that.vocalList[that.chickId]['code'],
                     'text': that.inputTtsText,
-                    'vel': '0',
-                    'vol': '0',
-                    'pit': '0',
+                    'vel': that.ttsParameter.vel,
+                    'vol': that.ttsParameter.vol,
+                    'pit': that.ttsParameter.pit,
                     'time': new Date().getTime(),
                     'randstr': that.inputVcode,
                 })).then(function (res) {
@@ -393,6 +421,11 @@
     
     a:hover {
         color: #ee0000;
+    }
+    
+    p {
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
     
     #page {
@@ -585,7 +618,7 @@
     .parameterInput {
         margin: 16px 0 0 0;
         float: right;
-        width: 175px;
+        width: 160px;
     }
     
     .ttsConfig-right {
