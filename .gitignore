@@ -20,3 +20,4 @@ yarn-error.log*
 *.sln
 *.sw?
 /electron-quick-start
+/src/assets/js/config.js
