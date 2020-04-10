@@ -17,7 +17,7 @@
 </template >
 
 <script >
-    import config from "../assets/js/config";
+    import config from "../../assets/js/config";
 
     export default {
         name: "Notice",

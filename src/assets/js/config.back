@@ -1,0 +1,15 @@
+// 服务器地址
+let serviceApi = "https://api.5ixf.cc/";
+// 分配的appid
+let appid = 'lastdream';
+// 验证码vid
+let vid = '5e4b8687c7c282e4485ec3b1';
+// 备案信息
+let recordMsg = '甘公网安备 62010302000307号    陇ICP备19003838号';
+
+export default {
+    serviceApi,
+    appid,
+    vid,
+    recordMsg
+}

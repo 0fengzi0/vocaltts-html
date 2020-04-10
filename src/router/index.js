@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import index from '../components/index'
-import Notice from '../components/Notice'
+import PcIndex from '../components/pc/PcIndex'
+import PhoneIndex from "../components/mobel/PhoneIndex";
 
 Vue.use(VueRouter);
 
@@ -12,14 +12,14 @@ const routes = [
     //   component: Home
     // },
     {
-        path: '/',
-        name: 'index',
-        component: index
+        path : '/',
+        name : 'PcIndex',
+        component : PcIndex
     },
     {
-        path: '/notice',
-        name: 'Notice',
-        component: Notice
+        path : '/PhoneIndex',
+        name : 'PhoneIndex',
+        component : PhoneIndex
     },
 ];
 

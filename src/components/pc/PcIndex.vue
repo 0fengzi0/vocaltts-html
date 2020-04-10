@@ -5,11 +5,11 @@
                 <div class="ttsPage-left" >
                     <div class="vocalList" >
                         <div
-                                class="vocal"
-                                v-for="(list, index) in vocalList"
-                                :class="list.status == 'true' ? (chickId == index ? 'chickId' : 'canChoose') : 'cantChoose'"
-                                :key="index"
-                                @click="chickVoice(index)"
+                            class="vocal"
+                            v-for="(list, index) in vocalList"
+                            :class="list.status == 'true' ? (chickId == PcIndex ? 'chickId' : 'canChoose') : 'cantChoose'"
+                            :key="PcIndex"
+                            @click="chickVoice(PcIndex)"
                         >
                             <img :src="list.headimg" :alt="list.name" id="vocalHeadImg" />
                             <div class="vocalMsg" >
@@ -55,9 +55,9 @@
                                     <svg t="1575004811319" class="icon" viewBox="0 0 1024 1024" version="1.1"
                                          xmlns="http://www.w3.org/2000/svg" p-id="1976" width="50" height="25" >
                                         <path
-                                                d="M832 768v64H192v-64H128v128h768v-128zM822.624 438.624l-45.248-45.248L544 626.752V128h-64v498.752l-233.376-233.376-45.248 45.248L512 749.248z"
-                                                fill="#ffffff"
-                                                p-id="1977"
+                                            d="M832 768v64H192v-64H128v128h768v-128zM822.624 438.624l-45.248-45.248L544 626.752V128h-64v498.752l-233.376-233.376-45.248 45.248L512 749.248z"
+                                            fill="#ffffff"
+                                            p-id="1977"
                                         ></path >
                                     </svg >
                                 </div >
@@ -109,7 +109,7 @@
             </p >
             <p >本站建立时间{{ startDay }}，已提供服务{{ runDays }}天</p >
             <p v-show="config.recordMsg != ''" >
-                <img src="../assets/beiantubiao.png" alt="" width="13px" height="13px" />
+                <img src="../../assets/beiantubiao.png" alt="" width="13px" height="13px" />
                 <a href="http://www.beian.miit.gov.cn/" >{{ config.recordMsg }}</a >
             </p >
         </div >
@@ -124,61 +124,61 @@
 </template >
 
 <script >
-    import config from "../assets/js/config";
+    import config from "../../assets/js/config";
     import Notice from "./Notice";
     import vaptchaModel from "./vaptchaModel";
     import promptModel from "./promptModel";
-
+    
     export default {
-        components: {Notice, vaptchaModel, promptModel},
+        components : { Notice, vaptchaModel, promptModel },
         data() {
             return {
                 // 配置文件
-                config: {},
+                config : {},
                 // 建站日期
-                startDay: '2018-11-21',
+                startDay : '2018-11-21',
                 // 运行天数
-                runDays: 0,
+                runDays : 0,
                 // 发音人列表
-                vocalList: [
+                vocalList : [
                     {
-                        id: '1',
-                        code: 'lty',
-                        name: '洛天依',
-                        version: 't2',
-                        headimg: 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
-                        presentation: '该音源为T2音源',
-                        status: 'true'
+                        id : '1',
+                        code : 'lty',
+                        name : '洛天依',
+                        version : 't2',
+                        headimg : 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
+                        presentation : '该音源为T2音源',
+                        status : 'true'
                     }
                 ],
                 // tts状态 0合成1播放2停止
-                audioStatus: 1,
+                audioStatus : 1,
                 // 合成后的音频文件名
-                wavePath: 'http://tts.5ixf.cc/audio/helloLastDream.wav',
+                wavePath : 'http://tts.5ixf.cc/audio/helloLastDream.wav',
                 // 输入的TTS文本
-                inputTtsText: '',
+                inputTtsText : '',
                 // 历史TTS文本
-                oldTtsText: '',
+                oldTtsText : '',
                 // 选中的发音人
-                chickId: -1,
+                chickId : -1,
                 // 消息弹窗是否显示
-                msgModalShow: false,
+                msgModalShow : false,
                 // 消息弹窗内容
-                msgModal: {
-                    title: '标题',
-                    msg: '内容'
+                msgModal : {
+                    title : '标题',
+                    msg : '内容'
                 },
                 // 验证码弹窗是否显示
-                vcodeModalShow: false,
+                vcodeModalShow : false,
                 // 合成参数
-                ttsParameter: {
-                    pit: 0,
-                    vel: 0,
-                    vol: 0
+                ttsParameter : {
+                    pit : 0,
+                    vel : 0,
+                    vol : 0
                 }
             };
         },
-
+        
         // 初始化完成
         mounted() {
             let that = this;
@@ -188,9 +188,9 @@
             // 获取声库列表
             that.getVocaList();
         },
-
+        
         // 其他函数
-        methods: {
+        methods : {
             // 计算运行天数
             countRunDays() {
                 // 两个时间戳相差的毫秒数
@@ -198,104 +198,104 @@
                 // 计算相差的天数
                 this.runDays = Math.floor(usedTime / (24 * 3600 * 1000));
             },
-
+            
             // 播放
             startWave() {
                 this.$refs.audio.src = this.wavePath;
                 this.$refs.audio.play();
             },
-
+            
             // 停止播放
             PauseWave() {
                 this.$refs.audio.pause();
             },
-
+            
             // 当播放等待合成
             onWait() {
                 this.audioStatus = 0;
             },
-
+            
             // 当播放停止
             onPause() {
                 this.audioStatus = 1;
             },
-
+            
             // 当播放开始
             onPlay() {
                 this.audioStatus = 2;
             },
-
+            
             // 设置pit参数
             clickVocaPit(e) {
                 this.ttsParameter.pit = e.srcElement.value;
                 this.oldTtsText = '';
             },
-
+            
             // 设置vel参数
             clickVocaVel(e) {
                 this.ttsParameter.vel = e.srcElement.value;
                 this.oldTtsText = '';
             },
-
+            
             // 设置vol参数
             clickVocaVol(e) {
                 this.ttsParameter.vol = e.srcElement.value;
                 this.oldTtsText = '';
             },
-
+            
             // 切换发音人
             chickVoice(index) {
-                if (this.vocalList[index].status == 'true') {
-                    this.chickId = index;
+                if ( this.vocalList[PcIndex].status == 'true' ) {
+                    this.chickId = PcIndex;
                     // 清除历史信息
                     this.oldTtsText = '';
                 }
             },
-
+            
             // 下载合成的音频
             downLoadTTSFile() {
                 window.open(this.wavePath);
             },
-
+            
             // 点击播放按钮
-            playTts: function () {
-                if (this.inputTtsText != '') {
-                    if (this.audioStatus == 1) {
-                        if (this.oldTtsText != this.inputTtsText) {
+            playTts : function () {
+                if ( this.inputTtsText != '' ) {
+                    if ( this.audioStatus == 1 ) {
+                        if ( this.oldTtsText != this.inputTtsText ) {
                             // 显示验证码
                             this.vcodeModalShow = true;
                         } else {
                             // 播放tts
                             this.startWave();
                         }
-                    } else if (this.audio_status == 2) {
+                    } else if ( this.audio_status == 2 ) {
                         // 停止合成
                         this.PauseWave();
                     }
                 } else {
                     // 提示合成文本为空
                     this.msgModal = {
-                        title: '提示信息',
-                        msg: '合成文本为空,请输入文本后合成'
+                        title : '提示信息',
+                        msg : '合成文本为空,请输入文本后合成'
                     };
                     this.msgModalShow = true;
                 }
             },
-
+            
             // 更新输入的合成文本
             updateTtsText(e) {
                 this.inputTtsText = e.srcElement.value;
                 this.oldTtsText = '';
             },
-
+            
             // 关闭验证码弹窗
             closeVaptcha(token) {
                 this.vcodeModalShow = false;
-                if (token != '') {
+                if ( token != '' ) {
                     this.doSynth(token)
                 }
             },
-
+            
             // 提交合成信息
             doSynth(token) {
                 let that = this;
@@ -306,20 +306,20 @@
                     .post(
                         that.config.serviceApi + 'vocaltts/synth/dosynth',
                         qs.stringify({
-                            app: 'web',
-                            uid: that.config.appid,
-                            version: that.vocalList[that.chickId]['version'],
-                            voice: that.vocalList[that.chickId]['code'],
-                            text: that.inputTtsText,
-                            vel: that.ttsParameter.vel,
-                            vol: that.ttsParameter.vol,
-                            pit: that.ttsParameter.pit,
-                            time: new Date().getTime(),
-                            token: token
+                            app : 'web',
+                            uid : that.config.appid,
+                            version : that.vocalList[that.chickId]['version'],
+                            voice : that.vocalList[that.chickId]['code'],
+                            text : that.inputTtsText,
+                            vel : that.ttsParameter.vel,
+                            vol : that.ttsParameter.vol,
+                            pit : that.ttsParameter.pit,
+                            time : new Date().getTime(),
+                            token : token
                         })
                     )
                     .then(function (res) {
-                        if (res.data.code == 200) {
+                        if ( res.data.code == 200 ) {
                             that.wavePath = that.config.serviceApi + 'vocaltts/synth/getwave/wave/' + res.data.fileName;
                             that.oldTtsText = that.inputTtsText;
                             // 播放声音
@@ -327,8 +327,8 @@
                         } else {
                             that.onPause();
                             that.msgModal = {
-                                title: '合成失败',
-                                msg: res.data.msg
+                                title : '合成失败',
+                                msg : res.data.msg
                             };
                             that.msgModalShow = true;
                         }
@@ -336,51 +336,51 @@
                     .catch(function (res) {
                         that.onPause();
                         that.msgModal = {
-                            title: '合成失败',
-                            msg: '出现未知错误'
+                            title : '合成失败',
+                            msg : '出现未知错误'
                         };
                         that.msgModalShow = true;
                     });
             },
-
+            
             // 获取发音人列表
             getVocaList() {
                 let that = this;
                 this.axios
                     .post(that.config.serviceApi + 'vocaltts/voca/getvocalist')
                     .then(function (res) {
-                        if (res.data.code == 200) {
+                        if ( res.data.code == 200 ) {
                             that.vocalList = res.data.data;
                             // 检测并选中第一个可用音源
                             that.chooseCanUseVoice();
                         } else {
                             console.log('发生错误:' + res.data);
                             that.msgModal = {
-                                title: '获取发音人列表失败',
-                                msg: res.data.msg
+                                title : '获取发音人列表失败',
+                                msg : res.data.msg
                             };
                             that.msgModalShow = true;
                         }
                     })
                     .catch(function (res) {
                         that.msgModal = {
-                            title: '访问出错',
-                            msg: '出现未知错误'
+                            title : '访问出错',
+                            msg : '出现未知错误'
                         };
                         that.msgModalShow = true;
                     });
             },
-
+            
             // 首次加载自动选择发音人
             chooseCanUseVoice() {
-                for (let i = 0; i < this.vocalList.length; i++) {
-                    if (this.vocalList[i].status == 'true') {
+                for ( let i = 0; i < this.vocalList.length; i++ ) {
+                    if ( this.vocalList[i].status == 'true' ) {
                         this.chickId = i;
                         break;
                     }
                 }
             },
-
+            
             // 关闭信息弹窗
             closePrompt() {
                 this.msgModalShow = false

@@ -6,11 +6,11 @@
 
 <script >
     export default {
-        name: "App",
+        name : "App",
         data() {
             return {};
         },
-
+        
         // 初始化完成
         mounted() {
         }

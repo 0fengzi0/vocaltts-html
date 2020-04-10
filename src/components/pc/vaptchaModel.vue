@@ -22,12 +22,12 @@
 </template >
 
 <script >
-    import config from "../assets/js/config";
-
+    import config from "../../assets/js/config";
+    
     export default {
-        name: "vaptcha",
+        name : "vaptcha",
         // 引用组件
-        components: {},
+        components : {},
         data() {
             return {};
         },
@@ -37,29 +37,29 @@
             this.vaptcha(config.vid);
         },
         // 其他函数
-        methods: {
+        methods : {
             // 验证码
             vaptcha(cvid) {
                 let that = this;
                 window.vaptcha({
                     // 验证单元id
-                    vid: cvid,
+                    vid : cvid,
                     // 展现类型 嵌入式
-                    type: 'embed',
+                    type : 'embed',
                     // 验证场景
-                    scene: 1,
+                    scene : 1,
                     // 按钮容器，可为Element 或者 selector
-                    container: '#vaptchaContainer',
+                    container : '#vaptchaContainer',
                     // 语言 默认zh-CN,可选值zh-CN,en,zh-TW
-                    lang: 'zh-CN',
+                    lang : 'zh-CN',
                     // 使用https 默认 true
-                    https: true,
+                    https : true,
                     //离线模式服务端地址
-                    offline_server: 'https://5ixf.vip/',
+                    offline_server : 'https://5ixf.vip/',
                 }).then(function (vaptchaObj) {
                     // 调用验证实例 vpObj 的 render 方法加载验证按钮
                     vaptchaObj.render();
-
+                    
                     vaptchaObj.listen('pass', function () {
                         // 验证成功进行后续操作
                         console.log("验证成功")
@@ -71,7 +71,7 @@
                     });
                 });
             },
-
+            
             // 返回数据
             returnData(token) {
                 this.$emit("return-token", token);
