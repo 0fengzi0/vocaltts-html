@@ -19,6 +19,3 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-/electron-quick-start
-/src/assets/js/config.js
-/src/assets/js/config.js.back
