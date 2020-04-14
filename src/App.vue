@@ -1,32 +1,34 @@
-<template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
-</template>
+<template >
+    <v-app id="app" @contextmenu.prevent="" >
+        <router-view />
+    </v-app >
+</template >
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script >
+    export default {
+        name : "app",
+        // 初始化完成
+        mounted() {
+            console.info(window.document.body.offsetWidth >= 900 ? '当前是电脑页面' : '当前是手机页面');
+            console.info('当前环境:' + process.env.NODE_ENV);
+        },
+        // 其他函数
+        methods : {}
     }
-  }
-}
-</style>
+</script >
+
+<style lang="scss" >
+    html, body, #app {
+        width: 100%;
+        height: 100%;
+        overflow: hidden !important;
+        margin: 0;
+        padding: 0;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+</style >
