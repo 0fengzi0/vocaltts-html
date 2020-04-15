@@ -3,10 +3,10 @@
         <div class="model" >
             <div class="modelTitle" >
                 请进行验证
-                <div id="closeButton" @click="returnData" >×</div >
+                <div id="closeButton" @click="returnData('')" >×</div >
             </div >
             <!-- 嵌入式仅需设置宽度，高度根据宽度自适应，最小宽度为200px -->
-            <div id="vaptchaContainer" style="width: 300px" >
+            <div id="vaptchaContainer" style="width: 300px;height: 172.5px" >
                 <!--vaptcha-container是用来引入VAPTCHA的容器，下面代码为预加载动画，仅供参考-->
                 <div class="vaptcha-init-main" >
                     <div class="vaptcha-init-loading" >
@@ -41,50 +41,58 @@
             let that = this;
             Bus.$on("doVaptcha", (res) => {
                 that.vaptchaModelData.isShow = true;
-                setTimeout(function () {
-                    that.vaptcha("5e48a17023a0fab02e7db791");
-                }, 10);
+                setTimeout(() => {
+                    that.vaptcha(process.env.VUE_APP_CVID)
+                }, 50);
             });
         },
         // 其他函数
         methods : {
             // 验证码
-            vaptcha(cvid) {
+            vaptcha(cvid = '') {
                 let that = this;
-                window.vaptcha({
-                    // 验证单元id
-                    vid : cvid,
-                    // 展现类型 嵌入式
-                    type : 'embed',
-                    // 验证场景
-                    scene : 1,
-                    // 按钮容器，可为Element 或者 selector
-                    container : '#vaptchaContainer',
-                    // 语言 默认zh-CN,可选值zh-CN,en,zh-TW
-                    lang : 'zh-CN',
-                    // 使用https 默认 true
-                    https : true,
-                    //离线模式服务端地址
-                    offline_server : 'https://5ixf.vip/',
-                }).then(function (vaptchaObj) {
-                    // 调用验证实例 vpObj 的 render 方法加载验证按钮
-                    vaptchaObj.render();
-                    
-                    // 验证成功进行后续操作
-                    vaptchaObj.listen('pass', function () {
-                        console.log("验证成功");
-                        // 获取验证的token 并返回数据
-                        that.returnData(vaptchaObj.getToken());
-                        //重置验证码
-                        vaptchaObj.reset();
+                if ( cvid != '' ) {
+                    window.vaptcha({
+                        // 验证单元id
+                        vid : cvid,
+                        // 展现类型 嵌入式
+                        type : 'embed',
+                        // 验证场景
+                        scene : 1,
+                        // 按钮容器，可为Element 或者 selector
+                        container : '#vaptchaContainer',
+                        // 语言 默认zh-CN,可选值zh-CN,en,zh-TW
+                        lang : 'zh-CN',
+                        // 使用https 默认 true
+                        https : true,
+                        //离线模式服务端地址
+                        offline_server : 'https://5ixf.vip/',
+                    }).then(function (vaptchaObj) {
+                        // 调用验证实例 vpObj 的 render 方法加载验证按钮
+                        vaptchaObj.render();
+                        
+                        // 验证成功进行后续操作
+                        vaptchaObj.listen('pass', function () {
+                            console.log("验证成功");
+                            // 获取验证的token 并返回数据
+                            that.returnData(vaptchaObj.getToken());
+                            //重置验证码
+                            vaptchaObj.reset();
+                        });
                     });
-                });
+                } else {
+                    Bus.$emit('showSnackBar', {
+                        msg : "手势验证码配置错误,请检查",
+                        color : "error"
+                    })
+                }
+                
             },
             
             // 返回数据
-            returnData(token) {
+            returnData(token = '') {
                 this.vaptchaModelData.isShow = false;
-                Bus.$emit("returnToken", token);
+                token !== '' ? Bus.$emit("returnToken", token) : '';
             }
         }
     };

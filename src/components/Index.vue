@@ -40,6 +40,13 @@
             window.document.body.offsetWidth >= 900 ? this.isPc = true : this.isPc = false;
         },
         
+        // 销毁前
+        beforeDestroy() {
+            Bus.$off('doVaptcha', res => {
+                console.log('销毁监听', res);
+            })
+        },
+        
         // 其他函数
         methods : {}
     };

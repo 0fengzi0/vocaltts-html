@@ -17,8 +17,8 @@ vocaltts项目的前端开源地址,项目使用vue-cli构建
 [vaptcha手势验证码](https://www.vaptcha.com/)
 ```
 
-##### (1)开始
-###### github
+##### (1)开始,github和码云二选一
+###### github(主要,速度较慢)
 ``` bash
 git clone https://github.com/0fengzi0/vocaltts-html.git
 ```
@@ -32,25 +32,11 @@ git clone https://gitee.com/feng__zi/vocaltts-html.git
 yarn
 ```
 
-##### (3)新建配置文件并填写, 配置文件在 "/src/assets/js/config.js"
-``` javascript
-// 配置文件内容
-
-// 服务器地址
-let apiService = "https://api.5ixf.cc/";
-// 分配的appid
-let appid = '';
-// 验证码vid
-let vid = '';
-// 备案信息
-let recordMsg = '';
-
-export default {
-    apiService,
-    appid,
-    vid,
-    recordMsg
-}
+##### (3)在根目录新建配置文件[.env]并填写
+``` text
+NODE_ENV=分配的appid
+VUE_APP_CVID=你的手势验证码CVID
+VUE_APP_RECORD=备案信息
 ```
 
 ##### (4)开始构建
@@ -58,6 +44,9 @@ export default {
 yarn build
 ```
 ---------------------------------
+2020.4.15
+
+    重构前端项目,使用环境变量进行文件配置
 2020.2.18
     
     新增弹窗公告功能

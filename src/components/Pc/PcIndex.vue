@@ -114,11 +114,12 @@
                 <span class="white-space" ></span >
             </p >
             <p >本站建立时间{{ startDay }}，已提供服务{{ runDays }}天，当前版本V{{ version }}</p >
-            <!--<p v-show="config.recordMsg != ''" >-->
-            <!--    &lt;!&ndash;<img src="../assets/beiantubiao.png" alt="" width="13px" height="13px" />&ndash;&gt;-->
-            <!--    <a href="http://www.beian.miit.gov.cn/" >{{ config.recordMsg }}</a >-->
-            <!--</p >-->
+            <p >
+                <!--<img src="../assets/beiantubiao.png" alt="" width="13px" height="13px" />-->
+                <a href="http://www.beian.miit.gov.cn/" >{{ record }}</a >
+            </p >
         </div >
+        <PcNotice ></PcNotice >
     </div >
 </template >
 
@@ -127,10 +128,14 @@
     import Bus from "../Utils/Bus";
     import HttpClient from "../Utils/HttpClient";
     
+    import PcNotice from "./PcNotice";
+    
     export default {
         name : "PcIndex",
         // 引用组件
-        components : {},
+        components : {
+            PcNotice
+        },
         data() {
             return {
                 // 建站日期
@@ -165,7 +170,9 @@
                     pit : 0,
                     vel : 0,
                     vol : 0
-                }
+                },
+                // 备案信息
+                record : process.env.VUE_APP_RECORD
             };
         },
         
@@ -176,11 +183,9 @@
             that.countRunDays();
             // 获取声库列表
             that.getVocaList();
-            // 检测合成事件
+            // 监听合成事件
             Bus.$on("returnToken", token => {
-                if ( token !== "" && token != null ) {
-                    that.doSynth(token);
-                }
+                that.doSynth(token);
             });
         },
         
@@ -269,6 +274,10 @@
                     }
                 } else {
                     // 提示合成文本为空
+                    Bus.$emit('showSnackBar', {
+                        msg : "合成文本为空,请重新输入",
+                        color : "warning"
+                    });
                 }
             },
             
@@ -292,13 +301,12 @@
                     pit : that.ttsParameter.pit,
                     token : token
                 }).then(function (res) {
-                    that.wavePath = HttpClient.serviceApi + 'vocaltts/synth/getwave/wave/' + res.fileName;
-                    that.oldTtsText = that.inputTtsText;
-                    // 播放声音
-                    that.startWave();
-                    
-                }).catch(function (res) {
-                    that.onPause();
+                    if ( res.code === 200 ) {
+                        that.wavePath = HttpClient.serviceApi + 'vocaltts/synth/getwave/wave/' + res.fileName;
+                        that.oldTtsText = that.inputTtsText;
+                        // 播放声音
+                        that.startWave();
+                    }
                 });
             },
             
@@ -306,9 +314,11 @@
             getVocaList() {
                 let that = this;
                 HttpClient.doHttp("vocaltts/voca/getvocalist", 'post').then(res => {
-                    that.vocalList = res.data;
-                    // 检测并选中第一个可用音源
-                    that.chooseCanUseVoice();
+                    if ( res.code == 200 ) {
+                        that.vocalList = res.data;
+                        // 检测并选中第一个可用音源
+                        that.chooseCanUseVoice();
+                    }
                 });
             },
             

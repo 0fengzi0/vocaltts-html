@@ -22,8 +22,8 @@
             return {
                 snackBarData : {
                     isShow : false,
-                    msg : "提示条",
-                    color : "primary"
+                    msg : "",
+                    color : ""
                 }
             };
         },
@@ -31,9 +31,10 @@
         // 初始化完成
         mounted() {
             let that = this;
+            // 监听提示条事件
             Bus.$on("showSnackBar", (res) => {
                 that.snackBarData.msg = res.msg;
-                that.snackBarData.color = res.color;
+                that.snackBarData.color = res.color == null ? 'primary' : res.color;
                 
                 that.snackBarData.isShow = true;
             })
