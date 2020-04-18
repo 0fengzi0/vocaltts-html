@@ -1,23 +1,24 @@
 # vocaltts-html
-vocaltts项目的前端开源地址,项目使用vue-cli构建
-
-欢迎star
-
-在线展示页面
+### 关于此项目
+    
+    本项目为VOCALTTS的前端，使用vue-cli构建。
+    开源本项目只是希望能为一些学习前端的同学提供一些帮（wu）助（dao）。
+    同时此项目也为自己在前端的学习上提供一些实践的地方。
+    如果你对某些地方有更好的解决方法，欢迎提出。
+-------------------------------
+### 在线展示页面
 
 [主站1-tts.5ixf.cc](http://tts.5ixf.cc)        
 [主站2-tts.5ixf.vip](http://tts.5ixf.vip)    
 [LastDream-lastdream.net](https://www.lastdream.net/plugin.php?id=LD:VOCALTTS)
-
 -------------------------------
-
 ##### (0)准备
 
 在这里申请验证码相关东西
 
 [vaptcha手势验证码](https://www.vaptcha.com/)
 
-##### (1)开始,github和码云二选一
+##### (1)开始，github和码云二选一
 ###### github(主要,速度较慢)
 ``` bash
 git clone https://github.com/0fengzi0/vocaltts-html.git
@@ -46,14 +47,20 @@ yarn build
 ```
 更新日志
 ---------------------------------
+2020.4.18
+
+    开启Gzip
+    部分组件使用异步加载
 2020.4.15
 
-    重构前端项目,使用环境变量进行文件配置
-    UI使用vuetifyjs
+    重构前端项目
+    新增移动端页面
+    修改配置引入方式为环境变量
+    UI使用vuetifyjs（一个谷歌MD风格的UI框架）
 2020.2.18
     
     新增弹窗公告功能
-    验证码对接为手势验证码
+    人机验证为替换为手势验证码
     修改配置引入方式为js文件
 2020.1.1
 
