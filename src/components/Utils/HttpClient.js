@@ -24,9 +24,7 @@ const instance = axios.create({
 
 //请求拦截器
 instance.interceptors.request.use(res => {
-    console.log('请求拦截器', res);
     if ( res.method === "post" || res.method === "POST" ) {
-        console.log(res.data);
         res.data.app = 'web';
         res.data.uid = process.env.NODE_ENV;
         res.data.time = new Date().getTime();
@@ -39,7 +37,6 @@ instance.interceptors.request.use(res => {
 
 //响应拦截器
 instance.interceptors.response.use(res => {
-    console.log('响应拦截器', res);
     if ( res.data.code !== 200 ) {
         errorHandle(res.data);
     }

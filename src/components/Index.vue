@@ -31,7 +31,8 @@
         },
         data() {
             return {
-                isPc : false
+                // 是否是电脑页面
+                isPc : false,
             };
         },
         
@@ -43,7 +44,7 @@
         // 销毁前
         beforeDestroy() {
             Bus.$off('doVaptcha', res => {
-                console.log('销毁监听', res);
+                console.log('销毁验证码监听', res);
             })
         },
         

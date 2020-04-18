@@ -24,7 +24,14 @@
         data() {
             return {
                 // 公告列表
-                placard_list : [],
+                placard_list : [
+                    {
+                        id : 0,
+                        title : "",
+                        msg : "",
+                        time : "",
+                    }
+                ],
             };
         },
         

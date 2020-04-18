@@ -114,9 +114,9 @@
                 <span class="white-space" ></span >
             </p >
             <p >本站建立时间{{ startDay }}，已提供服务{{ runDays }}天，当前版本V{{ version }}</p >
-            <p >
+            <p v-html="record" >
                 <!--<img src="../assets/beiantubiao.png" alt="" width="13px" height="13px" />-->
-                <a href="http://www.beian.miit.gov.cn/" >{{ record }}</a >
+            
             </p >
         </div >
         <PcNotice ></PcNotice >
@@ -140,6 +140,7 @@
             return {
                 // 建站日期
                 startDay : '2018-11-21',
+                // 当前版本
                 version : config.version,
                 // 运行天数
                 runDays : 0,
@@ -259,18 +260,19 @@
             
             // 点击播放按钮
             playTts : function () {
-                if ( this.inputTtsText != '' ) {
-                    if ( this.audioStatus == 1 ) {
-                        if ( this.oldTtsText != this.inputTtsText ) {
+                let that = this;
+                if ( that.inputTtsText != '' ) {
+                    if ( that.audioStatus == 1 ) {
+                        if ( that.oldTtsText != that.inputTtsText ) {
                             // 显示验证码
                             Bus.$emit('doVaptcha', {});
                         } else {
                             // 播放tts
-                            this.startWave();
+                            that.startWave();
                         }
-                    } else if ( this.audio_status == 2 ) {
+                    } else if ( that.audioStatus == 2 ) {
                         // 停止合成
-                        this.PauseWave();
+                        that.PauseWave();
                     }
                 } else {
                     // 提示合成文本为空
