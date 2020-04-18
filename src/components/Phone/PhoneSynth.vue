@@ -111,7 +111,6 @@
     export default {
         name : "PhoneSynth",
         // 引用组件
-        // eslint-disable-next-line vue/no-unused-components
         components : { PhoneFooter },
         data() {
             return {

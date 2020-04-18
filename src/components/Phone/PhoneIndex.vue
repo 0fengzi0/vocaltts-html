@@ -48,11 +48,9 @@
 </template >
 
 <script >
-    import Bus from "../Utils/Bus";
-    
-    import PhoneSynth from "./PhoneSynth";
-    import PhoneNotice from "./PhoneNotice";
-    import PhoneAbout from "./PhoneAbout";
+    const PhoneSynth = () => import('./PhoneSynth');
+    const PhoneNotice = () => import('./PhoneNotice');
+    const PhoneAbout = () => import('./PhoneAbout');
     
     export default {
         name : "PhoneIndex",

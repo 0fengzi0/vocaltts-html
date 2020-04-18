@@ -13,10 +13,9 @@
 
 <script >
     import Bus from "./Utils/Bus";
-    import HttpClient from "./Utils/HttpClient";
     
-    import PhoneIndex from "./Phone/PhoneIndex";
-    import PcIndex from "./Pc/PcIndex";
+    const PhoneIndex = () => import('./Phone/PhoneIndex.vue');
+    const PcIndex = () => import('./Pc/PcIndex');
     import VaptchaModel from "./Utils/VaptchaModel";
     import SnackBar from "./Utils/SnackBar";
     

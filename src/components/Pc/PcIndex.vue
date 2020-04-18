@@ -128,7 +128,7 @@
     import Bus from "../Utils/Bus";
     import HttpClient from "../Utils/HttpClient";
     
-    import PcNotice from "./PcNotice";
+    const PcNotice = () => import('./PcNotice');
     
     export default {
         name : "PcIndex",
