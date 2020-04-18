@@ -5,8 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --mode serve",
     "build": "vue-cli-service build",
-    "5ixf": "vue-cli-service build --mode admin",
-    "lastdream": "vue-cli-service build --mode lastdream",
+    "lastdream": "vue-cli-service build --modern --mode lastdream",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
