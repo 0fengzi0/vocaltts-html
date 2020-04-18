@@ -26,7 +26,7 @@ const instance = axios.create({
 instance.interceptors.request.use(res => {
     if ( res.method === "post" || res.method === "POST" ) {
         res.data.app = 'web';
-        res.data.uid = process.env.NODE_ENV;
+        res.data.uid = process.env.VUE_APP_APPID;
         res.data.time = new Date().getTime();
         res.data = qs.stringify(res.data);
     }

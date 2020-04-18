@@ -37,7 +37,7 @@ yarn
 ``` text
 NODE_ENV=分配的appid
 VUE_APP_CVID=你的手势验证码CVID
-VUE_APP_RECORD=备案信息
+VUE_APP_RECORD=<a style='text-decoration: none;color: black !important;' href='http://www.beian.miit.gov.cn/'>备案信息</a>
 ```
 
 ##### (4)开始构建

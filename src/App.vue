@@ -10,7 +10,7 @@
         // 初始化完成
         mounted() {
             console.info(window.document.body.offsetWidth >= 900 ? '当前是电脑页面' : '当前是手机页面');
-            console.info('当前环境:' + process.env.NODE_ENV);
+            console.info('当前环境:' + process.env.VUE_APP_APPID);
         },
         // 其他函数
         methods : {}

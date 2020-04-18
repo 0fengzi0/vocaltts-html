@@ -3,15 +3,17 @@
   "version": "3.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --mode serve",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lastdream": "vue-cli-service build --modern --mode lastdream",
+    "lastdream": "vue-cli-service build --mode lastdream --dest dist --target app --modern --dashboard",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "compression-webpack-plugin": "^3.1.0",
     "core-js": "^3.6.4",
     "qs": "^6.9.3",
+    "terser-webpack-plugin": "^2.3.5",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",
     "vuetify": "^2.2.21"
