@@ -1,7 +1,7 @@
 const CompressionPlugin = require('compression-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
-if ( process.env.NODE_ENV === 'production' ) {
+if ( process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'lastdream' ) {
     module.exports = {
         publicPath : '',
         // webpack的相关配置在这里

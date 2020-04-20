@@ -36,7 +36,7 @@ yarn
 
 ##### (3)在根目录新建配置文件[.env]并填写(备案信息支持HTML代码)
 ``` text
-NODE_ENV=分配的appid
+VUE_APP_APPID=分配的appid
 VUE_APP_CVID=你的手势验证码CVID
 VUE_APP_RECORD=<a style='text-decoration: none;color: black !important;' href='http://www.beian.miit.gov.cn/'>备案信息</a>
 ```
