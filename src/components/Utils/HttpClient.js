@@ -2,19 +2,20 @@ import axios from "axios"
 import qs from 'qs';
 import Bus from "./Bus";
 
+// 统一异常处理部分
 function errorHandle(res) {
     let data = {
         msg : res.msg,
         color : "error"
     };
-    res.code == null ? data.msg = "网络请求错误" : '';
+    res.msg == null ? data.msg = "网络请求错误" : '';
     Bus.$emit('showSnackBar', data);
 }
 
-//创建axios实例
+// 创建axios实例
 const instance = axios.create({
-        // 超时
-        timeout : 1000 * 12,
+        // 超时 15秒
+        timeout : 1000 * 15,
         // 请求头
         headers : {
             'Content-Type' : "application/x-www-form-urlencoded"
@@ -22,7 +23,7 @@ const instance = axios.create({
     })
 ;
 
-//请求拦截器
+// 请求拦截器
 instance.interceptors.request.use(res => {
     if ( res.method === "post" || res.method === "POST" ) {
         res.data.app = 'web';
@@ -31,27 +32,27 @@ instance.interceptors.request.use(res => {
         res.data = qs.stringify(res.data);
     }
     return res;
-}, error => {
-    Promise.error(error);
 });
 
-//响应拦截器
+// 响应拦截器
 instance.interceptors.response.use(res => {
     if ( res.data.code !== 200 ) {
         errorHandle(res.data);
+        return Promise.reject(res.data);
     }
     return Promise.resolve(res.data);
 }, error => {
     console.log('请求失败,其他原因', error);
     let data = {
         code : -1,
-        msg : error.message
+        msg : error.message,
+        data : error
     };
     errorHandle(data);
     return Promise.reject(data);
 });
 
-
+// 设置服务器地址,开发环境用
 let serviceApi = process.env.VUE_APP_HOST == null ? 'https://api.5ixf.cc/' : process.env.VUE_APP_HOST;
 
 function doHttp(url = "", type = "get", data = {}) {
