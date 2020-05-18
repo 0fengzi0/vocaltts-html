@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lastdream": "vue-cli-service build --mode lastdream",
+    "5ixf": "vue-cli-service build --mode ixf",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

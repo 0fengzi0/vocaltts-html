@@ -177,6 +177,7 @@
                 HttpClient.doHttp("vocaltts/voca/getvocalist", 'post').then(res => {
                     if (res.code == 200) {
                         that.vocalList = res.data;
+                        that.chooseCanUseVoice()
                     }
                 });
             },
@@ -185,6 +186,17 @@
             chickVoice(index) {
                 let that = this;
                 that.ttsData.voice = index;
+            },
+
+            // 首次加载自动选择发音人
+            chooseCanUseVoice() {
+                let that = this;
+                for (let i = 0; i < that.vocalList.length; i++) {
+                    if (that.vocalList[i].status == 'true') {
+                        that.chickVoice(i);
+                        break;
+                    }
+                }
             },
 
             // 点击播放按钮

@@ -1,6 +1,7 @@
 <template >
     <div class="text-center" id="PhoneFooter" >
-        <div >本站仅提供语音合成二创和试听，严禁任何商业用途！</div >
+        <div >本站仅提供语音合成二创和试听</div >
+        <div >严禁任何商业用途！</div >
         <div >洛天依版权归上海禾念信息科技有限公司所有</div >
         <div v-html="record" ></div >
     </div >
