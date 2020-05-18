@@ -2,15 +2,15 @@
     <div id="PhoneIndex" >
         <!--头部状态栏-->
         <v-app-bar
-            dense
-            color="rgba(255,255,255,0.8)"
+                color="rgba(255,255,255,0.8)"
+                dense
         >
             <v-avatar
-                size="32"
-                class="mr-2"
+                    class="mr-2"
+                    size="32"
             >
                 <img
-                    src="https://s1.ax1x.com/2020/04/17/JVOam8.jpg"
+                        src="https://s1.ax1x.com/2020/04/17/JVOam8.jpg"
                 >
             </v-avatar >
             <v-toolbar-title >VOCALTTS-V家语音合成</v-toolbar-title >
@@ -19,15 +19,15 @@
         </v-app-bar >
         <!--右侧弹出菜单-->
         <v-navigation-drawer
-            v-model="drawer"
-            fixed
-            clipped
-            right
-            temporary
+                clipped
+                fixed
+                right
+                temporary
+                v-model="drawer"
         >
             <v-list >
                 <v-list-item-group >
-                    <v-list-item v-for="(item,index) in phoneMenuList" :key="index" @click="chikeMenu(item.id)" >
+                    <v-list-item :key="index" @click="chikeMenu(item.id)" v-for="(item,index) in phoneMenuList" >
                         <v-list-item-icon >
                             <v-icon v-text="item.icon" ></v-icon >
                         </v-list-item-icon >
@@ -51,47 +51,47 @@
     const PhoneSynth = () => import('./PhoneSynth');
     const PhoneNotice = () => import('./PhoneNotice');
     const PhoneAbout = () => import('./PhoneAbout');
-    
+
     export default {
-        name : "PhoneIndex",
+        name: "PhoneIndex",
         // 引用组件
-        components : {
+        components: {
             PhoneSynth,
             PhoneNotice,
             PhoneAbout,
         },
         data() {
             return {
-                drawer : false,
+                drawer: false,
                 // 选中手机分页
-                phonePage : 0,
-                phoneMenuList : [
+                phonePage: 0,
+                phoneMenuList: [
                     {
-                        id : 0,
-                        text : '首页',
-                        icon : 'mdi-voice'
+                        id: 0,
+                        text: '首页',
+                        icon: 'mdi-voice'
                     },
                     {
-                        id : 1,
-                        text : '公告',
-                        icon : 'mdi-bulletin-board'
+                        id: 1,
+                        text: '公告',
+                        icon: 'mdi-bulletin-board'
                     },
                     {
-                        id : 2,
-                        text : '关于',
-                        icon : 'mdi-information'
+                        id: 2,
+                        text: '关于',
+                        icon: 'mdi-information'
                     }
                 ],
             };
         },
-        
+
         // 初始化完成
         mounted() {
             let that = this;
         },
-        
+
         // 其他函数
-        methods : {
+        methods: {
             // 切换页面
             chikeMenu(id) {
                 this.phonePage = id;
@@ -101,7 +101,7 @@
     };
 </script >
 
-<style scoped lang="scss" >
+<style lang="scss" scoped >
     #PhoneIndex {
         width: 100%;
         height: 100%;

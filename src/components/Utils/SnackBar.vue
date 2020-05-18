@@ -1,10 +1,10 @@
 <template >
     <div id="SnackBar" >
         <v-snackbar
-            v-model="snackBarData.isShow"
-            top
-            right
-            :color="snackBarData.color"
+                :color="snackBarData.color"
+                right
+                top
+                v-model="snackBarData.isShow"
         >
             {{ snackBarData.msg }}
         </v-snackbar >
@@ -13,21 +13,21 @@
 
 <script >
     import Bus from "./Bus";
-    
+
     export default {
-        name : "SnackBar",
+        name: "SnackBar",
         // 引用组件
-        components : {},
+        components: {},
         data() {
             return {
-                snackBarData : {
-                    isShow : false,
-                    msg : "",
-                    color : ""
+                snackBarData: {
+                    isShow: false,
+                    msg: "",
+                    color: ""
                 }
             };
         },
-        
+
         // 初始化完成
         mounted() {
             let that = this;
@@ -35,17 +35,17 @@
             Bus.$on("showSnackBar", (res) => {
                 that.snackBarData.msg = res.msg;
                 that.snackBarData.color = res.color == null ? 'primary' : res.color;
-                
+
                 that.snackBarData.isShow = true;
             })
         },
-        
+
         // 其他函数
-        methods : {}
+        methods: {}
     };
 </script >
 
-<style scoped lang="scss" >
+<style lang="scss" scoped >
     #SnackBar {
         pointer-events: none;
         position: absolute;

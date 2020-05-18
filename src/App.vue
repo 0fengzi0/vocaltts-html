@@ -1,19 +1,19 @@
 <template >
-    <v-app id="app" @contextmenu.prevent="" >
+    <v-app @contextmenu.prevent="" id="app" >
         <router-view />
     </v-app >
 </template >
 
 <script >
     export default {
-        name : "app",
+        name: "app",
         // 初始化完成
         mounted() {
             console.info(window.document.body.offsetWidth >= 900 ? '当前是电脑页面' : '当前是手机页面');
             console.info('当前环境:' + process.env.VUE_APP_APPID);
         },
         // 其他函数
-        methods : {}
+        methods: {}
     }
 </script >
 

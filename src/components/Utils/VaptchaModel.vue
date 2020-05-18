@@ -3,7 +3,7 @@
         <div class="model" >
             <div class="modelTitle" >
                 请进行验证
-                <div id="closeButton" @click="returnData('')" >×</div >
+                <div @click="returnData('')" id="closeButton" >×</div >
             </div >
             <!-- 嵌入式仅需设置宽度，高度根据宽度自适应，最小宽度为200px -->
             <div id="vaptchaContainer" style="width: 300px;height: 172.5px" >
@@ -23,15 +23,15 @@
 
 <script >
     import Bus from "./Bus";
-    
+
     export default {
-        name : "vaptchaModel",
+        name: "vaptchaModel",
         // 引用组件
-        components : {},
+        components: {},
         data() {
             return {
-                vaptchaModelData : {
-                    isShow : false
+                vaptchaModelData: {
+                    isShow: false
                 }
             };
         },
@@ -47,30 +47,30 @@
             });
         },
         // 其他函数
-        methods : {
+        methods: {
             // 验证码
             vaptcha(cvid = '') {
                 let that = this;
-                if ( cvid != '' ) {
+                if (cvid != '') {
                     window.vaptcha({
                         // 验证单元id
-                        vid : cvid,
+                        vid: cvid,
                         // 展现类型 嵌入式
-                        type : 'embed',
+                        type: 'embed',
                         // 验证场景
-                        scene : 1,
+                        scene: 1,
                         // 按钮容器，可为Element 或者 selector
-                        container : '#vaptchaContainer',
+                        container: '#vaptchaContainer',
                         // 语言 默认zh-CN,可选值zh-CN,en,zh-TW
-                        lang : 'zh-CN',
+                        lang: 'zh-CN',
                         // 使用https 默认 true
-                        https : true,
+                        https: true,
                         //离线模式服务端地址
-                        offline_server : 'https://5ixf.vip/',
+                        offline_server: 'https://5ixf.vip/',
                     }).then(function (vaptchaObj) {
                         // 调用验证实例 vpObj 的 render 方法加载验证按钮
                         vaptchaObj.render();
-                        
+
                         // 验证成功进行后续操作
                         vaptchaObj.listen('pass', function () {
                             console.log("验证成功");
@@ -82,13 +82,13 @@
                     });
                 } else {
                     Bus.$emit('showSnackBar', {
-                        msg : "手势验证码配置错误,请检查",
-                        color : "error"
+                        msg: "手势验证码配置错误,请检查",
+                        color: "error"
                     })
                 }
-                
+
             },
-            
+
             // 返回数据
             returnData(token = '') {
                 this.vaptchaModelData.isShow = false;

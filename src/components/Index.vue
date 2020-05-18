@@ -13,16 +13,16 @@
 
 <script >
     import Bus from "./Utils/Bus";
-    
-    const PhoneIndex = () => import('./Phone/PhoneIndex.vue');
-    const PcIndex = () => import('./Pc/PcIndex');
     import VaptchaModel from "./Utils/VaptchaModel";
     import SnackBar from "./Utils/SnackBar";
-    
+
+    const PhoneIndex = () => import('./Phone/PhoneIndex.vue');
+    const PcIndex = () => import('./Pc/PcIndex');
+
     export default {
-        name : "Index",
+        name: "Index",
         // 引用组件
-        components : {
+        components: {
             PhoneIndex,
             PcIndex,
             SnackBar,
@@ -31,28 +31,28 @@
         data() {
             return {
                 // 是否是电脑页面
-                isPc : false,
+                isPc: false,
             };
         },
-        
+
         // 初始化完成
         mounted() {
             window.document.body.offsetWidth >= 900 ? this.isPc = true : this.isPc = false;
         },
-        
+
         // 销毁前
         beforeDestroy() {
             Bus.$off('doVaptcha', res => {
                 console.log('销毁验证码监听', res);
             })
         },
-        
+
         // 其他函数
-        methods : {}
+        methods: {}
     };
 </script >
 
-<style scoped lang="scss" >
+<style lang="scss" scoped >
     #Index {
         width: 100%;
         height: 100%;

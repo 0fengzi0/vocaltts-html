@@ -1,11 +1,11 @@
 <template >
     <div id="PhoneNotice" >
         <v-card
-            class="ma-2 pa-0"
-            color="rgba(255,255,255,0.8)"
-            v-for="(item,index) in placardList"
-            :key="index"
-            link
+                :key="index"
+                class="ma-2 pa-0"
+                color="rgba(255,255,255,0.8)"
+                link
+                v-for="(item,index) in placardList"
         >
             <v-card-text class="d-flex flex-column pa-3" >
                 <div class="notice-top d-flex" >
@@ -21,38 +21,38 @@
 
 <script >
     import HttpClient from "../Utils/HttpClient";
-    
+
     export default {
-        name : "PhoneNotice",
+        name: "PhoneNotice",
         data() {
             return {
                 // 公告列表
-                placardList : [
+                placardList: [
                     {
-                        id : 0,
-                        title : "",
-                        msg : "",
-                        time : "",
+                        id: 0,
+                        title: "",
+                        msg: "",
+                        time: "",
                     }
                 ],
             };
         },
-        
+
         // 初始化完成
         mounted() {
             // 获取公告列表
             this.get_placard_list();
         },
-        
+
         // 其他函数
-        methods : {
+        methods: {
             // 获取公告列表
-            get_placard_list : function () {
+            get_placard_list: function () {
                 let that = this;
                 HttpClient.doHttp('/vocaltts/Placard/getplacard', 'get').then(res => {
-                    if ( res.code === 200 ) {
+                    if (res.code === 200) {
                         that.placardList = [];
-                        for ( let i in res.placrdList ) {
+                        for (let i in res.placrdList) {
                             res.placrdList[i].show = true;
                             res.placrdList[i].animation = false;
                             that.placardList.unshift(res.placrdList[i]);
@@ -60,12 +60,12 @@
                     }
                 });
             },
-            
+
         }
     };
 </script >
 
-<style scoped lang="scss" >
+<style lang="scss" scoped >
     #PhoneNotice {
         width: 100%;
     }
