@@ -8,7 +8,8 @@
 -------------------------------
 ### 在线展示页面
 
-[主站1-tts.5ixf.cc](http://tts.5ixf.cc)        
+
+[主站1-gitee部署](https://feng__zi.gitee.io/vocaltts-html/)   
 [主站2-tts.5ixf.vip](http://tts.5ixf.vip)    
 [LastDream-lastdream.net](https://www.lastdream.net/plugin.php?id=LD:VOCALTTS)
 -------------------------------
@@ -29,7 +30,7 @@ git clone https://github.com/0fengzi0/vocaltts-html.git
 git clone https://gitee.com/feng__zi/vocaltts-html.git
 ```
 
-##### (2)
+##### (2)安装依赖
 ``` bash
 yarn
 ```
