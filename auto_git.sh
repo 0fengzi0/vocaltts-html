@@ -18,7 +18,7 @@ git config --global user.name "$user_name"
 
 # 克隆储存库
 cd $root_path
-git clone "https://github.com/$user_name/$repo_name.git"
+git clone "https://$git_token@github.com/$user_name/$repo_name.git"
 
 # 清理、还原、同步本地分支
 cd $root_path/$repo_name
