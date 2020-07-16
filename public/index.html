@@ -1,146 +1,147 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
 
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0">
-	<link rel="icon" href="<%= BASE_URL %>favicon.ico">
-	<title>VOCALTTS-V家在线语音合成</title>
-	<meta name="keywords" content="tts，语音合成，洛天依，vsinger，VOCALOID，VOCALTTS，TTS，乐正绫，Miku，AI天依">
-	<meta name="subject" content="一个在线语音合成小站">
-	<meta name="description" content="一个用于V家语音合成的小站，本站内容为个人兴趣自制且仅供试听，严禁用于商业用途。">
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-	<!--手势验证码-->
-	<script src="https://v.vaptcha.com/v3.js"></script>
-	<!--百度-->
-	<meta name="baidu-site-verification" content="oOKIRFXcHU" />
-	<!--苹果和安卓-->
-	<link rel="apple-touch-icon-precomposed" href="https://s1.ax1x.com/2020/04/17/JVOam8.jpg">
-	<meta name="mobile-web-app-capable" content="yes">
-	<!--windows-->
-	<meta name="msapplication-TileImage" content="https://s1.ax1x.com/2020/04/17/JVOam8.jpg">
-	<meta name="msapplication-TileColor" content="#0e90d2">
-	<!--苹果-->
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="apple-mobile-web-app-title" content="VOCALTTS-V家在线语音合成" />
-	<link rel="apple-touch-icon-precomposed" href="https://s1.ax1x.com/2020/04/17/JVOam8.jpg">
-	<!-- 百度统计 -->
-	<script>
-		var _hmt = _hmt || [];
-		(function () {
-			var hm = document.createElement("script");
-			hm.src = "https://hm.baidu.com/hm.js?3c0aa95621f85ada78b8e5946e9f775d";
-			var s = document.getElementsByTagName("script")[0];
-			s.parentNode.insertBefore(hm, s);
-		})();
-	</script>
-</head>
-
-<body>
-	<noscript>
-		<strong>很抱歉，如果不启用JavaScript，本网站将无法正常工作。请启用它以继续。</strong>
-	</noscript>
-	<div id="app">
-		<style>
-			html,
-			body,
-			#app {
-				padding: 0;
-				margin: 0;
-				width: 100%;
-				height: 100%;
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<link rel="icon" href="<%= BASE_URL %>favicon.ico">
+		<title>VOCALTTS-V家在线语音合成</title>
+		<meta name="keywords" content="tts，语音合成，洛天依，vsinger，VOCALOID，VOCALTTS，TTS，乐正绫，Miku，AI天依">
+		<meta name="subject" content="一个在线语音合成小站">
+		<meta name="description" content="一个用于V家语音合成的小站，本站内容为个人兴趣自制且仅供试听，严禁用于商业用途。">
+		<!-- 字体 -->
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+		<!--手势验证码-->
+		<script src="https://v.vaptcha.com/v3.js"></script>
+		<!--苹果和安卓-->
+		<link rel="apple-touch-icon-precomposed" href="https://s1.ax1x.com/2020/04/17/JVOam8.jpg">
+		<meta name="mobile-web-app-capable" content="yes">
+		<!--windows-->
+		<meta name="msapplication-TileImage" content="https://s1.ax1x.com/2020/04/17/JVOam8.jpg">
+		<meta name="msapplication-TileColor" content="#0e90d2">
+		<!--苹果-->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-title" content="VOCALTTS-V家在线语音合成" />
+		<link rel="apple-touch-icon-precomposed" href="https://s1.ax1x.com/2020/04/17/JVOam8.jpg">
+		<!-- 百度统计 -->
+		<script>
+			if (process.env.VUE_APP_APPID == "admin") {
+				var _hmt = _hmt || [];
+				(function() {
+					var hm = document.createElement("script");
+					hm.src = "https://hm.baidu.com/hm.js?3c0aa95621f85ada78b8e5946e9f775d";
+					var s = document.getElementsByTagName("script")[0];
+					s.parentNode.insertBefore(hm, s);
+				})();
 			}
+		</script>
+	</head>
 
-			.load {
-				width: 100%;
-				height: 100%;
-				margin: auto;
-				color: white;
-				background-color: #000000;
-				position: absolute;
-				top: 0;
-				left: 0;
-			}
-
-			.spinner {
-				margin: 100px auto;
-				width: 50px;
-				height: 60px;
-				text-align: center;
-				font-size: 10px;
-			}
-
-			.spinner>div {
-				background-color: #FE3C71;
-				height: 100%;
-				width: 6px;
-				display: inline-block;
-				-webkit-animation: stretchDelay 1.2s infinite ease-in-out;
-				animation: stretchDelay 1.2s infinite ease-in-out;
-			}
-
-			.spinner .rect2 {
-				-webkit-animation-delay: -1.1s;
-				animation-delay: -1.1s;
-			}
-
-			.spinner .rect3 {
-				-webkit-animation-delay: -1.0s;
-				animation-delay: -1.0s;
-			}
-
-			.spinner .rect4 {
-				-webkit-animation-delay: -0.9s;
-				animation-delay: -0.9s;
-			}
-
-			.spinner .rect5 {
-				-webkit-animation-delay: -0.8s;
-				animation-delay: -0.8s;
-			}
-
-			@-webkit-keyframes stretchDelay {
-
-				0%,
-				40%,
-				100% {
-					-webkit-transform: scaleY(0.4)
+	<body>
+		<noscript>
+			<strong>很抱歉，如果不启用JavaScript，本网站将无法正常工作。请启用它以继续。</strong>
+		</noscript>
+		<div id="app">
+			<style>
+				html,
+				body,
+				#app {
+					padding: 0;
+					margin: 0;
+					width: 100%;
+					height: 100%;
 				}
 
-				20% {
-					-webkit-transform: scaleY(1.0)
-				}
-			}
-
-			@keyframes stretchDelay {
-
-				0%,
-				40%,
-				100% {
-					transform: scaleY(0.4);
-					-webkit-transform: scaleY(0.4);
+				.load {
+					width: 100%;
+					height: 100%;
+					margin: auto;
+					color: white;
+					background-color: #000000;
+					position: absolute;
+					top: 0;
+					left: 0;
 				}
 
-				20% {
-					transform: scaleY(1.0);
-					-webkit-transform: scaleY(1.0);
+				.spinner {
+					margin: 100px auto;
+					width: 50px;
+					height: 60px;
+					text-align: center;
+					font-size: 10px;
 				}
-			}
-		</style>
-		<div class="load">
-			<div class="spinner">
-				<div class="rect1"></div>
-				<div class="rect2"></div>
-				<div class="rect3"></div>
-				<div class="rect4"></div>
-				<div class="rect5"></div>
+
+				.spinner>div {
+					background-color: #FE3C71;
+					height: 100%;
+					width: 6px;
+					display: inline-block;
+					-webkit-animation: stretchDelay 1.2s infinite ease-in-out;
+					animation: stretchDelay 1.2s infinite ease-in-out;
+				}
+
+				.spinner .rect2 {
+					-webkit-animation-delay: -1.1s;
+					animation-delay: -1.1s;
+				}
+
+				.spinner .rect3 {
+					-webkit-animation-delay: -1.0s;
+					animation-delay: -1.0s;
+				}
+
+				.spinner .rect4 {
+					-webkit-animation-delay: -0.9s;
+					animation-delay: -0.9s;
+				}
+
+				.spinner .rect5 {
+					-webkit-animation-delay: -0.8s;
+					animation-delay: -0.8s;
+				}
+
+				@-webkit-keyframes stretchDelay {
+
+					0%,
+					40%,
+					100% {
+						-webkit-transform: scaleY(0.4)
+					}
+
+					20% {
+						-webkit-transform: scaleY(1.0)
+					}
+				}
+
+				@keyframes stretchDelay {
+
+					0%,
+					40%,
+					100% {
+						transform: scaleY(0.4);
+						-webkit-transform: scaleY(0.4);
+					}
+
+					20% {
+						transform: scaleY(1.0);
+						-webkit-transform: scaleY(1.0);
+					}
+				}
+			</style>
+			<div class="load">
+				<div class="spinner">
+					<div class="rect1"></div>
+					<div class="rect2"></div>
+					<div class="rect3"></div>
+					<div class="rect4"></div>
+					<div class="rect5"></div>
+				</div>
+				<h1 style="text-align: center;">VOCALTTS加载中 <br> 请耐心等待.....</h1>
 			</div>
-			<h1 style="text-align: center;">VOCALTTS加载中，请耐心等待.....</h1>
 		</div>
-	</div>
-</body>
+	</body>
 
 </html>
