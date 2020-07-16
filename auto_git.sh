@@ -29,10 +29,10 @@ git pull origin master
 # 安装并编译本地代码
 cd $root_path/$repo_name
 yarn
-yarn run build
+yarn run 5ixf
 
 # 提交储存库
-cd $root_path/$repo_name/dist
+cd $root_path/$repo_name/dist/admin
 git init
 git add -A
 git commit -m "auto_git脚本自动编译并提交"
