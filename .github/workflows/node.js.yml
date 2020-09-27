@@ -40,7 +40,7 @@ jobs:
         git config --global user.email $GITHUB_USERNAME
         git config --global user.name $EMAIL
         
-        cd dist && git init && git add .
+        cd dist/5ixf && git init && git add .
         git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
         git push --force --quiet "https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$DIST_REPO.git" master:master
         
