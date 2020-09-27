@@ -1,6 +1,6 @@
 # vocaltts-html
 ### 关于此项目
-    
+
     本项目为VOCALTTS的前端，使用vue-cli构建。
     开源本项目只是希望能为一些学习前端的同学提供一些帮（wu）助（dao）。
     同时此项目也为自己在前端的学习上提供一些实践的地方。
@@ -66,3 +66,9 @@ yarn build
 2020.1.1
 
     修改配置方式为json文件配置
+
+--------------
+## 鸣谢
+
+特别感谢 [JetBrains](https://www.jetbrains.com/?from=VOCALTTS) 为开源项目提供免费的 [WebStrom](https://www.jetbrains.com/?from=VOCALTTS) 等 IDE 的授权  
+[<img src="https://s1.ax1x.com/2020/08/13/az4yMF.png" width="200"/>](https://www.jetbrains.com/?from=VOCALTTS)
