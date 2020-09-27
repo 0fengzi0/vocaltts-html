@@ -1,60 +1,60 @@
-<template >
-    <div id="Index" >
-        <!--提示信息条-->
-        <SnackBar ></SnackBar >
-        <!--pc页面主体-->
-        <PcIndex v-if="isPc" ></PcIndex >
-        <!--手机页面主体-->
-        <PhoneIndex v-else ></PhoneIndex >
-        <!--验证码弹窗-->
-        <VaptchaModel ></VaptchaModel >
-    </div >
-</template >
+<template>
+  <div id="Index">
+    <!--提示信息条-->
+    <SnackBar></SnackBar>
+    <!--pc页面主体-->
+    <PcIndex v-if="isPc"></PcIndex>
+    <!--手机页面主体-->
+    <PhoneIndex v-else></PhoneIndex>
+    <!--验证码弹窗-->
+    <VaptchaModel></VaptchaModel>
+  </div>
+</template>
 
-<script >
-    import Bus from "./Utils/Bus";
-    import VaptchaModel from "./Utils/VaptchaModel";
-    import SnackBar from "./Utils/SnackBar";
+<script>
+import Bus from "../utils/Bus";
+import VaptchaModel from "../utils/VaptchaModel";
+import SnackBar from "../utils/SnackBar";
 
-    const PhoneIndex = () => import('./Phone/PhoneIndex.vue');
-    const PcIndex = () => import('./Pc/PcIndex');
+const PhoneIndex = () => import('../views/Phone/PhoneIndex.vue');
+const PcIndex = () => import('../views/Pc/PcIndex');
 
-    export default {
-        name: "Index",
-        // 引用组件
-        components: {
-            PhoneIndex,
-            PcIndex,
-            SnackBar,
-            VaptchaModel,
-        },
-        data() {
-            return {
-                // 是否是电脑页面
-                isPc: false,
-            };
-        },
-
-        // 初始化完成
-        mounted() {
-            window.document.body.offsetWidth >= 900 ? this.isPc = true : this.isPc = false;
-        },
-
-        // 销毁前
-        beforeDestroy() {
-            Bus.$off('doVaptcha', res => {
-                console.log('销毁验证码监听', res);
-            })
-        },
-
-        // 其他函数
-        methods: {}
+export default {
+  name: "Index",
+  // 引用组件
+  components: {
+    PhoneIndex,
+    PcIndex,
+    SnackBar,
+    VaptchaModel,
+  },
+  data() {
+    return {
+      // 是否是电脑页面
+      isPc: false,
     };
-</script >
+  },
 
-<style lang="scss" scoped >
-    #Index {
-        width: 100%;
-        height: 100%;
-    }
-</style >
+  // 初始化完成
+  mounted() {
+    window.document.body.offsetWidth >= 900 ? this.isPc = true : this.isPc = false;
+  },
+
+  // 销毁前
+  beforeDestroy() {
+    Bus.$off('doVaptcha', res => {
+      console.log('销毁验证码监听', res);
+    })
+  },
+
+  // 其他函数
+  methods: {}
+};
+</script>
+
+<style lang="scss" scoped>
+#Index {
+  width: 100%;
+  height: 100%;
+}
+</style>

@@ -1,9 +1,9 @@
-<template >
+<template>
   <div id="PhoneIndex">
     <!--头部状态栏-->
     <v-app-bar color="rgba(255,255,255,0.8)" dense>
       <v-avatar class="mr-2" size="32">
-        <img src="https://s1.ax1x.com/2020/04/17/JVOam8.jpg" />
+        <img src="https://s1.ax1x.com/2020/04/17/JVOam8.jpg"/>
       </v-avatar>
       <v-toolbar-title>VOCALTTS-V家语音合成</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -14,9 +14,9 @@
       <v-list>
         <v-list-item-group>
           <v-list-item
-            :key="index"
-            @click="chikeMenu(item.id)"
-            v-for="(item,index) in phoneMenuList"
+              :key="index"
+              @click="chikeMenu(item.id)"
+              v-for="(item,index) in phoneMenuList"
           >
             <v-list-item-icon>
               <v-icon v-text="item.icon"></v-icon>
@@ -35,9 +35,9 @@
       <PhoneAbout v-else></PhoneAbout>
     </div>
   </div>
-</template >
+</template>
 
-<script >
+<script>
 const PhoneSynth = () => import("./PhoneSynth");
 const PhoneNotice = () => import("./PhoneNotice");
 const PhoneAbout = () => import("./PhoneAbout");
@@ -89,14 +89,13 @@ export default {
     }
   }
 };
-</script >
+</script>
 
-<style lang="scss" scoped >
+<style lang="scss" scoped>
 #PhoneIndex {
   width: 100%;
   height: 100%;
-  background: url("https://s1.ax1x.com/2020/07/12/U851Ig.jpg") no-repeat right -200px
-    top 0;
+  background: url("https://s1.ax1x.com/2020/07/12/U851Ig.jpg") no-repeat right -200px top 0;
   background-size: auto 100%;
 
   .PhonePage {
@@ -105,4 +104,4 @@ export default {
     overflow-y: auto !important;
   }
 }
-</style >
+</style>
