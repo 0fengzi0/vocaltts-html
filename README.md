@@ -8,9 +8,7 @@
 -------------------------------
 ### 在线展示页面
 
-
-[主站1-gitee部署](https://feng__zi.gitee.io/vocaltts-html/)   
-[主站2-tts.5ixf.vip](http://tts.5ixf.vip)    
+[主站-tts.5ixf.vip](http://tts.5ixf.vip)    
 [LastDream-lastdream.net](https://www.lastdream.net/plugin.php?id=LD:VOCALTTS)
 -------------------------------
 ##### (0)准备
