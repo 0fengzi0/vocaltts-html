@@ -16,6 +16,8 @@ function errorHandle(res) {
 const instance = axios.create({
     // 超时 15秒
     timeout: 1000 * 15,
+    // 跨域请求时是否需要使用凭证,默认为false
+    withCredentials:true,
     // 请求头
     headers: {
         'Content-Type': "application/x-www-form-urlencoded"

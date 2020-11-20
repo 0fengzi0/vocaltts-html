@@ -49,10 +49,10 @@ export default {
       HttpClient.doHttp('/vocaltts/Placard/getplacard', 'get').then(res => {
         if (res.code === 200) {
           that.placard_list = [];
-          for (let i in res.placrdList) {
-            res.placrdList[i].show = true;
-            res.placrdList[i].animation = false;
-            that.placard_list.unshift(res.placrdList[i]);
+          for (let i in res.data) {
+            res.data[i].show = true;
+            res.data[i].animation = false;
+            that.placard_list.unshift(res.data[i]);
           }
           for (let i in that.placard_list) {
             setTimeout(function () {
