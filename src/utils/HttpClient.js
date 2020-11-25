@@ -1,4 +1,4 @@
-```js
+import store from '@/store/index';
 import axios from 'axios';
 import qs from 'qs';
 
@@ -9,6 +9,7 @@ function errorHandle (res) {
         color: 'error'
     };
     res.msg == null ? data.msg = '网络请求错误' : '';
+    store.commit('setShow', data);
 }
 
 // 创建axios实例
@@ -20,9 +21,7 @@ const instance = axios.create({
     // 请求头
     headers        : {
         'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    // 设置请求url
-    baseURL        : process.env.VUE_APP_HOST == null ? 'https://api.5ixf.vip/' : process.env.VUE_APP_HOST
+    }
 });
 
 // 请求拦截器
@@ -56,15 +55,20 @@ instance.interceptors.response.use(res => {
     return Promise.reject(data);
 });
 
+// 设置服务器地址,开发环境用
+let serviceApi = process.env.VUE_APP_HOST == null ? 'https://api.5ixf.vip/' : process.env.VUE_APP_HOST;
+
 function doHttp (url = '', type = 'get', data = {}) {
     if (type === 'get' || type === 'GET') {
-        return instance.get(url, {
+        return instance.get(serviceApi + url, {
             params: data
         });
     } else if (type === 'post' || type === 'POST') {
-        return instance.post(url, data);
+        return instance.post(serviceApi + url, data);
     }
 }
 
-export default doHttp;
-```
+export default {
+    doHttp,
+    serviceApi
+};
