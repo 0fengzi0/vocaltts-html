@@ -1,38 +1,39 @@
-import axios from "axios"
+```js
+import axios from 'axios';
 import qs from 'qs';
-import Bus from "./Bus";
 
 // 统一异常处理部分
-function errorHandle(res) {
+function errorHandle (res) {
     let data = {
-        msg: res.msg,
-        color: "error"
+        msg  : res.msg,
+        color: 'error'
     };
-    res.msg == null ? data.msg = "网络请求错误" : '';
-    Bus.$emit('showSnackBar', data);
+    res.msg == null ? data.msg = '网络请求错误' : '';
 }
 
 // 创建axios实例
 const instance = axios.create({
     // 超时 15秒
-    timeout: 1000 * 15,
+    timeout        : 1000 * 15,
     // 跨域请求时是否需要使用凭证,默认为false
-    withCredentials:true,
+    withCredentials: true,
     // 请求头
-    headers: {
-        'Content-Type': "application/x-www-form-urlencoded"
-    }
+    headers        : {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    // 设置请求url
+    baseURL        : process.env.VUE_APP_HOST == null ? 'https://api.5ixf.vip/' : process.env.VUE_APP_HOST
 });
 
 // 请求拦截器
 instance.interceptors.request.use(res => {
-    if (res.method === "post" || res.method === "POST") {
+    if (res.method === 'post' || res.method === 'POST') {
         res.data.app = 'web';
         res.data.uid = process.env.VUE_APP_APPID;
         res.data.time = new Date().getTime();
         res.data = qs.stringify(res.data);
         return res;
-    } else if (res.method === "get" || res.method === "GET") {
+    } else if (res.method === 'get' || res.method === 'GET') {
         res.params.time = new Date().getTime();
         return res;
     }
@@ -46,32 +47,24 @@ instance.interceptors.response.use(res => {
     }
     return Promise.resolve(res.data);
 }, error => {
-    console.log('请求失败,其他原因', error);
     let data = {
         code: -1,
-        msg: error.message,
+        msg : error.message,
         data: error
     };
     errorHandle(data);
     return Promise.reject(data);
 });
 
-// 设置服务器地址,开发环境用
-let serviceApi = process.env.VUE_APP_HOST == null ? 'https://api.5ixf.vip/' : process.env.VUE_APP_HOST;
-
-function doHttp(url = "", type = "get", data = {}) {
-    if (type === "get" || type === "GET") {
-        return instance.get(serviceApi + url, {
+function doHttp (url = '', type = 'get', data = {}) {
+    if (type === 'get' || type === 'GET') {
+        return instance.get(url, {
             params: data
-        })
-    } else if (type === "post" || type === "POST") {
-        return instance.post(serviceApi + url,
-            data
-        )
+        });
+    } else if (type === 'post' || type === 'POST') {
+        return instance.post(url, data);
     }
 }
 
-export default {
-    doHttp,
-    serviceApi
-}
+export default doHttp;
+```
