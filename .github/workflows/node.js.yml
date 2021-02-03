@@ -28,19 +28,17 @@ jobs:
     - name: Update dist folder to repository
       env:
         # 你的GitHub名字
-        GITHUB_USERNAME: "0fengzi0"
-        # 你的邮箱
-        EMAIL: "5ixf@5ixf.vip"
+        REPO_USERNAME: "0fengzi0"
         # GitHub Pages仓库名
         DIST_REPO: "VOCALTTS-dist"
         # GitHub Token
         GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
         
       run: |
-        git config --global user.email $GITHUB_USERNAME
-        git config --global user.name $EMAIL
+        git config --global user.email "Action@GitHub.com"
+        git config --global user.name "GitHub Action"
         
         cd dist/admin && git init && git add .
         git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
-        git push --force --quiet "https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$DIST_REPO.git" master:master
+        git push --force --quiet "https://$GITHUB_TOKEN@github.com/$REPO_USERNAME/$DIST_REPO.git" master:master
         
