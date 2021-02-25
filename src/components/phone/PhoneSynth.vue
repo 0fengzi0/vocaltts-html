@@ -66,6 +66,7 @@ import PhoneFooter from './PhoneFooter';
 import VocalApi from '@/api/VocalApi';
 import SynthApi from '@/api/SynthApi';
 import VaptchaService from '@/api/VaptchaService';
+import file from '@/plugins/file';
 
 export default {
     name: 'PhoneSynth',
@@ -103,8 +104,8 @@ export default {
             ],
             // tts状态 0合成1播放2停止
             audioStatus: 1,
-            // 合成后的音频文件名
-            wavePath: '',
+            // 合成后的音频数据
+            waveData: '',
             // 最大输入字数
             maxInput: 100
         };
@@ -184,7 +185,7 @@ export default {
             await vaptchaObj.listen('pass', () => {
                 SynthApi.doSynth(that.vocalList[that.ttsData.voice]['version'], that.vocalList[that.ttsData.voice]['code'], that.ttsData.text, vaptchaObj.getToken()).then(function (res) {
                     console.log('返回的数据' + res);
-                    that.wavePath = res.data;
+                    that.waveData = res.data;
                     // 深拷贝,记录历史合成数据
                     Object.assign(that.oldTTSData, that.ttsData);
                     // 播放声音
@@ -203,19 +204,14 @@ export default {
         
         // 下载合成的音频
         downLoadTTSFile () {
-            // if (this.wavePath !== '' && this.wavePath != null) {
-            //     file.download(this.inputTtsText + '.wav', window.atob(this.wavePath));
-            // } else {
-            //     this.$store.commit('snackBarShow', {
-            //         message: '还没有合成音频哦',
-            //         color  : 'warning'
-            //     });
-            // }
-            
-            this.$store.commit('snackBarShow', {
-                message: '下载音频暂不可用哦',
-                color  : 'error'
-            });
+            if (this.waveData !== '' && this.waveData != null) {
+                file.download(this.inputTtsText, this.waveData);
+            } else {
+                this.$store.commit('snackBarShow', {
+                    message: '还没有合成音频哦',
+                    color  : 'warning'
+                });
+            }
         },
         
         // 重置合成参数
@@ -237,7 +233,7 @@ export default {
         
         // 播放
         startWave () {
-            this.$refs.audio.src = 'data:audio/wav;base64,' + this.wavePath;
+            this.$refs.audio.src = 'data:audio/wav;base64,' + this.waveData;
             this.$refs.audio.play();
         },
         

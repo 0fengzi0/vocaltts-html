@@ -97,6 +97,7 @@ import VocalApi from '@/api/VocalApi';
 import SynthApi from '@/api/SynthApi';
 import PcFooter from '@/components/pc/PcFooter';
 import VaptchaService from '@/api/VaptchaService';
+import file from '@/plugins/file';
 
 const PcNotice = () => import('@/components/pc/PcNotice');
 
@@ -124,7 +125,7 @@ export default {
             // tts状态 0合成1播放2停止
             audioStatus: 1,
             // 合成后的音频文件名
-            wavePath: '',
+            waveData: '',
             // 合成参数
             ttsData: {
                 text : '',
@@ -158,7 +159,7 @@ export default {
         
         // 播放
         startWave () {
-            this.$refs.audio.src = 'data:audio/wav;base64,' + this.wavePath;
+            this.$refs.audio.src = 'data:audio/wav;base64,' + this.waveData;
             this.$refs.audio.play();
         },
         
@@ -191,19 +192,14 @@ export default {
         
         // 下载合成的音频
         downLoadTTSFile () {
-            // if (this.wavePath != '' && this.wavePath != null) {
-            //     file.download(this.inputTtsText + '.wav', window.atob(this.wavePath));
-            // } else {
-            //     this.$store.commit('snackBarShow', {
-            //         msg  : '还没有合成音频哦',
-            //         color: 'warning'
-            //     });
-            // }
-            
-            this.$store.commit('snackBarShow', {
-                message: '下载音频暂不可用哦',
-                color  : 'error'
-            });
+            if (this.waveData !== '' && this.waveData != null) {
+                file.download(this.ttsData.text, this.waveData);
+            } else {
+                this.$store.commit('snackBarShow', {
+                    message: '还没有合成音频哦',
+                    color  : 'warning'
+                });
+            }
         },
         
         // 点击播放按钮
@@ -239,7 +235,7 @@ export default {
         //     that.onWait();
         //     SynthApi.doSynth(that.vocalList[that.chickId]['version'], that.vocalList[that.chickId]['code'], that.inputTtsText).then(function (res) {
         //         if (res.code === 200) {
-        //             that.wavePath = res.data;
+        //             that.waveData = res.data;
         //             // 深拷贝,记录历史合成数据
         //             Object.assign(that.oldTTSData, that.ttsData);
         //             // 播放声音
@@ -260,7 +256,7 @@ export default {
             that.onWait();
             await vaptchaObj.listen('pass', () => {
                 SynthApi.doSynth(that.vocalList[that.ttsData.voice]['version'], that.vocalList[that.ttsData.voice]['code'], that.ttsData.text, vaptchaObj.getToken()).then(function (res) {
-                    that.wavePath = res.data;
+                    that.waveData = res.data;
                     // 深拷贝,记录历史合成数据
                     Object.assign(that.oldTTSData, that.ttsData);
                     // 播放声音

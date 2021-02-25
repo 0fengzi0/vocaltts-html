@@ -4,7 +4,7 @@ const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 
 if (process.env.NODE_ENV === 'production') {
     module.exports = {
-        publicPath: 'https://cdn.jsdelivr.net/gh/0fengzi0/VOCALTTS-dist/',
+        publicPath: process.env.USE_CDN ? 'https://cdn.jsdelivr.net/gh/0fengzi0/VOCALTTS-dist/' : '',
         // 输出目录
         outputDir: 'dist/' + process.env.VUE_APP_APPID,
         // webpack的相关配置在这里
