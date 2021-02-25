@@ -205,7 +205,7 @@ export default {
         // 下载合成的音频
         downLoadTTSFile () {
             if (this.waveData !== '' && this.waveData != null) {
-                file.download(this.inputTtsText, this.waveData);
+                file.download(this.ttsData.text, this.waveData);
             } else {
                 this.$store.commit('snackBarShow', {
                     message: '还没有合成音频哦',
