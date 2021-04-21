@@ -1,10 +1,10 @@
 <template>
     <div id='PhoneAbout' class='d-flex flex-column'>
         <v-card
-                class='ma-3'
-                color='rgba(255,255,255,0.8)'
-                max-height='80vh'
-                min-height='400px'
+            class='ma-3'
+            color='rgba(255,255,255,0.8)'
+            max-height='80vh'
+            min-height='400px'
         >
             <v-card-title>
                 关于本站
@@ -15,7 +15,7 @@
                 <div>本站建立时间{{ startDay }}，已提供服务{{ runDays }}天</div>
                 <div>当前版本V{{ version }}</div>
                 <div>制作与维护：
-                    <span><a href='https://5ixf.cc' target='_Blank'>疯子</a></span>
+                    <span><a href='https://5ixf.vip' target='_Blank'>疯子</a></span>
                     <span class='white-space'></span>
                     <span>B站：<a href='https://space.bilibili.com/13938564' target='_Blank'>0疯_子0</a></span>
                 </div>
@@ -51,8 +51,8 @@ import config from '../../../package.json';
 export default {
     name: 'PhoneAbout',
     // 引用组件
-    components: { PhoneFooter },
-    data () {
+    components: {PhoneFooter},
+    data() {
         return {
             // 建站日期
             startDay: '2018-11-21',
@@ -62,18 +62,18 @@ export default {
             version: config.version,
         };
     },
-    
+
     // 初始化完成
-    mounted () {
+    mounted() {
         let that = this;
         // 计算运行天数
         that.countRunDays();
     },
-    
+
     // 其他函数
     methods: {
         // 计算运行天数
-        countRunDays () {
+        countRunDays() {
             // 两个时间戳相差的毫秒数
             let usedTime = Date.parse(new Date()) - Date.parse(new Date(this.startDay));
             // 计算相差的天数

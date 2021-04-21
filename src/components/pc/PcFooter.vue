@@ -4,7 +4,7 @@
         <p>
 				<span>
 					制作与维护：
-					<a href='https://5ixf.cc' target='_Blank'>疯子</a>
+					<a href='https://5ixf.vip' target='_Blank'>疯子</a>
 				</span>
             <span class='white-space'></span>
             <span>
@@ -42,7 +42,7 @@ export default {
     name: 'PcFooter',
     // 引用的组件
     components: {},
-    data () {
+    data() {
         return {
             // 建站日期
             startDay: '2018-11-21',
@@ -57,13 +57,13 @@ export default {
     // 计算属性
     computed: {},
     // 初始化完成
-    mounted () {
+    mounted() {
         this.countRunDays();
     },
     // 其他函数
     methods: {
         // 计算运行天数
-        countRunDays () {
+        countRunDays() {
             // 两个时间戳相差的毫秒数
             var usedTime = Date.parse(new Date()) - Date.parse(new Date(this.startDay));
             // 计算相差的天数
