@@ -1,7 +1,7 @@
 import HttpClient from '@/plugins/HttpClient';
 
 class VocalApi {
-    getVocalList () {
+    getVocalList() {
         return HttpClient.doHttp('vocaltts/vocal/getAllVocal', 'post');
     }
 }

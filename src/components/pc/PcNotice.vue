@@ -21,26 +21,26 @@ import NoticeApi from '@/api/NoticeApi';
 
 export default {
     name: 'PcNotice',
-    data () {
+    data() {
         return {
             // 公告列表
             placard_list: [
                 {
-                    id   : 0,
+                    id: 0,
                     title: '',
-                    msg  : '',
-                    time : '',
+                    msg: '',
+                    time: '',
                 }
             ],
         };
     },
-    
+
     // 初始化完成
-    mounted () {
+    mounted() {
         // 获取公告列表
         this.get_placard_list();
     },
-    
+
     // 其他函数
     methods: {
         // 获取公告列表
@@ -60,7 +60,7 @@ export default {
                 }
             });
         },
-        
+
         // 隐藏公告
         animation_hide_placard: function (item) {
             let that = this;
@@ -69,7 +69,7 @@ export default {
                 that.placard_list[item].show = false;
             }, 1500);
         },
-        
+
     }
 };
 </script>

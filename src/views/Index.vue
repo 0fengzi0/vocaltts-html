@@ -19,18 +19,18 @@ export default {
         PhoneIndex,
         PcIndex,
     },
-    data () {
+    data() {
         return {
             // 是否是电脑页面
             isPc: false,
         };
     },
-    
+
     // 初始化完成
-    mounted () {
+    mounted() {
         window.document.body.offsetWidth >= 900 ? this.isPc = true : this.isPc = false;
     },
-    
+
     // 其他函数
     methods: {}
 };

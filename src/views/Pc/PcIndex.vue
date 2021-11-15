@@ -6,11 +6,11 @@
                 <div class='ttsPage-left'>
                     <div class='vocalList'>
                         <div
-                                v-for='(list, index) in vocalList'
-                                :key='index'
-                                :class="list.status === 'true' ? (ttsData.voice === index ? 'chickId' : 'canChoose') : 'cantChoose'"
-                                class='vocal'
-                                @click='chickVoice(index)'
+                            v-for='(list, index) in vocalList'
+                            :key='index'
+                            :class="list.status === 'true' ? (ttsData.voice === index ? 'chickId' : 'canChoose') : 'cantChoose'"
+                            class='vocal'
+                            @click='chickVoice(index)'
                         >
                             <img id='vocalHeadImg' :alt='list.name' :src='list.headimg'/>
                             <div class='vocalMsg'>
@@ -63,16 +63,16 @@
                                          viewBox='0 0 1024 1024'
                                          width='50' xmlns='http://www.w3.org/2000/svg'>
                                         <path
-                                                d='M832 768v64H192v-64H128v128h768v-128zM822.624 438.624l-45.248-45.248L544 626.752V128h-64v498.752l-233.376-233.376-45.248 45.248L512 749.248z'
-                                                fill='#ffffff'
-                                                p-id='1977'
+                                            d='M832 768v64H192v-64H128v128h768v-128zM822.624 438.624l-45.248-45.248L544 626.752V128h-64v498.752l-233.376-233.376-45.248 45.248L512 749.248z'
+                                            fill='#ffffff'
+                                            p-id='1977'
                                         />
                                     </svg>
                                 </div>
                             </div>
                             <div class='ttsDownloadPage'><a
-                                    href='http://www.lastdream.net/forum.php?mod=viewthread&amp;tid=1081'
-                                    target='_Blank'>点击下载PC版</a></div>
+                                href='http://www.lastdream.net/forum.php?mod=viewthread&amp;tid=1081'
+                                target='_Blank'>点击下载PC版</a></div>
                         </div>
                     </div>
                     <!--播放器-->
@@ -108,18 +108,18 @@ export default {
         PcNotice,
         PcFooter
     },
-    data () {
+    data() {
         return {
             // 发音人列表
             vocalList: [
                 {
-                    id          : '1',
-                    code        : 'lty',
-                    name        : '洛天依',
-                    version     : 't2',
-                    headimg     : 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
+                    id: '1',
+                    code: 'lty',
+                    name: '洛天依',
+                    version: 't2',
+                    headimg: 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
                     presentation: '该音源为T2音源',
-                    status      : 'true'
+                    status: 'true'
                 }
             ],
             // tts状态 0合成1播放2停止
@@ -128,82 +128,82 @@ export default {
             waveData: '',
             // 合成参数
             ttsData: {
-                text : '',
+                text: '',
                 voice: 0,
-                pit  : 0,
-                vel  : 0,
-                vol  : 0
+                pit: 0,
+                vel: 0,
+                vol: 0
             },
             // 历史合成参数
             oldTTSData: {
-                text : '!`100',
+                text: '!`100',
                 voice: 0,
-                pit  : 0,
-                vel  : 0,
-                vol  : 0
+                pit: 0,
+                vel: 0,
+                vol: 0
             },
             // 最大输入字数
             maxInput: 100
         };
     },
-    
+
     // 初始化完成
-    mounted () {
+    mounted() {
         let that = this;
         // 获取声库列表
         that.getVocaList();
     },
-    
+
     // 其他函数
     methods: {
-        
+
         // 播放
-        startWave () {
+        startWave() {
             this.$refs.audio.src = 'data:audio/wav;base64,' + this.waveData;
             this.$refs.audio.play();
         },
-        
+
         // 停止播放
-        PauseWave () {
+        PauseWave() {
             this.$refs.audio.pause();
         },
-        
+
         // 当播放等待合成
-        onWait () {
+        onWait() {
             this.audioStatus = 0;
         },
-        
+
         // 当播放停止
-        onPause () {
+        onPause() {
             this.audioStatus = 1;
         },
-        
+
         // 当播放开始
-        onPlay () {
+        onPlay() {
             this.audioStatus = 2;
         },
-        
+
         // 切换发音人
-        chickVoice (index) {
+        chickVoice(index) {
             if (this.vocalList[index].status === 'true') {
                 this.ttsData.voice = index;
             }
         },
-        
+
         // 下载合成的音频
-        downLoadTTSFile () {
+        downLoadTTSFile() {
             if (this.waveData !== '' && this.waveData != null) {
                 file.download(this.ttsData.text, this.waveData);
             } else {
                 this.$store.commit('snackBarShow', {
                     message: '还没有合成音频哦',
-                    color  : 'warning'
+                    color: 'warning'
                 });
             }
         },
-        
+
         // 点击播放按钮
-        playTts () {
+        playTts() {
             console.log(this.ttsData);
             console.log(this.oldTTSData);
             let that = this;
@@ -223,11 +223,11 @@ export default {
                 // 提示合成文本为空
                 that.$store.commit('snackBarShow', {
                     message: '合成文本为空,请重新输入',
-                    color  : 'warning'
+                    color: 'warning'
                 });
             }
         },
-        
+
         // // 提交合成信息
         // doSynth () {
         //     let that = this;
@@ -249,7 +249,7 @@ export default {
         // },
         //
         // 提交合成信息
-        async doSynth () {
+        async doSynth() {
             let that = this;
             let vaptchaObj = await VaptchaService.getVaptchObj();
             // 显示合成状态
@@ -258,7 +258,7 @@ export default {
                 SynthApi.doSynth(that.vocalList[that.ttsData.voice]['version'], that.vocalList[that.ttsData.voice]['code'], that.ttsData.text, vaptchaObj.getToken()).then(function (res) {
                     that.waveData = res.data;
                     // 深拷贝,记录历史合成数据
-                    Object.assign(that.oldTTSData, that.ttsData);
+                    that.oldTTSData = Object.assign({}, that.ttsData);
                     // 播放声音
                     that.startWave();
                 }).catch(() => {
@@ -268,13 +268,13 @@ export default {
                     //重置验证码
                     vaptchaObj.reset();
                 });
-                
+
             });
             await vaptchaObj.validate();
         },
-        
+
         // 获取发音人列表
-        getVocaList () {
+        getVocaList() {
             let that = this;
             VocalApi.getVocalList().then(res => {
                 that.vocalList = res.data;
@@ -282,9 +282,9 @@ export default {
                 that.chooseCanUseVoice();
             });
         },
-        
+
         // 首次加载自动选择发音人
-        chooseCanUseVoice () {
+        chooseCanUseVoice() {
             for (let i = 0; i < this.vocalList.length; i++) {
                 if (this.vocalList[i].status === 'true') {
                     this.chickVoice(i);

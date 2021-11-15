@@ -1,15 +1,15 @@
 let snackBar = {
-    state    : () => ({
+    state: () => ({
         model: {
-            isShow : false,
+            isShow: false,
             message: '',
-            color  : 'success'
+            color: 'success'
         }
     }),
     mutations: {
-        snackBarShow (state, data = {
+        snackBarShow(state, data = {
             message: '',
-            color  : 'info'
+            color: 'info'
         }) {
             state.model.isShow = false;
             setTimeout(() => {
@@ -18,12 +18,12 @@ let snackBar = {
                 state.model.isShow = true;
             }, 100);
         },
-        snackBarHide (state) {
+        snackBarHide(state) {
             state.model.isShow = false;
         }
     },
-    actions  : {},
-    getters  : {}
+    actions: {},
+    getters: {}
 };
 
 export default snackBar;

@@ -1,4 +1,4 @@
-function getVaptchObj () {
+function getVaptchObj() {
     return window.vaptcha({
         // 验证单元id
         vid: process.env.VUE_APP_CVID,
@@ -17,4 +17,4 @@ function getVaptchObj () {
     });
 }
 
-export default { getVaptchObj };
+export default {getVaptchObj};

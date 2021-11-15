@@ -1,11 +1,11 @@
 <template>
     <div id='PhoneNotice'>
         <v-card
-                v-for='(item,index) in placardList'
-                :key='index'
-                class='ma-2 pa-0'
-                color='rgba(255,255,255,0.8)'
-                link
+            v-for='(item,index) in placardList'
+            :key='index'
+            class='ma-2 pa-0'
+            color='rgba(255,255,255,0.8)'
+            link
         >
             <v-card-text class='d-flex flex-column pa-3'>
                 <div class='notice-top d-flex'>
@@ -24,26 +24,26 @@ import NoticeApi from '@/api/NoticeApi';
 
 export default {
     name: 'PhoneNotice',
-    data () {
+    data() {
         return {
             // 公告列表
             placardList: [
                 {
-                    id   : 0,
+                    id: 0,
                     title: '',
-                    msg  : '',
-                    time : '',
+                    msg: '',
+                    time: '',
                 }
             ],
         };
     },
-    
+
     // 初始化完成
-    mounted () {
+    mounted() {
         // 获取公告列表
         this.get_placard_list();
     },
-    
+
     // 其他函数
     methods: {
         // 获取公告列表
@@ -69,7 +69,7 @@ export default {
 
 .notice-top {
     flex: 0 0 30px;
-    
+
     .notice-title {
         flex: 1;
         font-size: 1.2rem;
@@ -78,11 +78,11 @@ export default {
         white-space: nowrap;
         text-overflow: ellipsis;
     }
-    
+
     .notice-time {
         flex: 0 0 150px;
         font-size: 1rem;
     }
-    
+
 }
 </style>

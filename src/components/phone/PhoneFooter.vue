@@ -13,17 +13,17 @@ export default {
     name: 'PhoneFooter',
     // 引用组件
     components: {},
-    data () {
+    data() {
         return {
             // 备案信息
             record: process.env.VUE_APP_RECORD
         };
     },
-    
+
     // 初始化完成
-    mounted () {
+    mounted() {
     },
-    
+
     // 其他函数
     methods: {}
 };

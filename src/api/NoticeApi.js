@@ -1,7 +1,7 @@
 import HttpClient from '@/plugins/HttpClient';
 
 class NoticeApi {
-    getPlacardList () {
+    getPlacardList() {
         return HttpClient.doHttp('/vocaltts/Placard/getplacard', 'get');
     }
 }

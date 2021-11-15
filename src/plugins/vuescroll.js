@@ -3,11 +3,11 @@ import vuescroll from 'vuescroll';
 
 const opts = {
     name: 'myScroll',
-    ops : {
+    ops: {
         scrollPanel: {
             scrollingX: false
         },
-        bar        : {
+        bar: {
             hoverStyle: true,
             //是否只有滚动的时候才显示滚动条
             onlyShowBarOnScroll: false,

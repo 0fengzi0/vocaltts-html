@@ -4,10 +4,10 @@ import qs from 'qs';
 import $cookies from 'vue-cookies';
 
 // 统一异常处理部分
-function errorHandle (res) {
+function errorHandle(res) {
     let snackBarData = {
         message: '',
-        color  : 'error'
+        color: 'error'
     };
     if (res.status === 200) {
         snackBarData.color = 'warning';
@@ -49,9 +49,9 @@ const instance = axios.create({
 instance.interceptors.request.use(res => {
     if (res.method === 'post' || res.method === 'POST') {
         res.data = {
-            app       : 'web',
-            uid       : process.env.VUE_APP_APPID,
-            time      : new Date().getTime().toString().substr(0, 10),
+            app: 'web',
+            uid: process.env.VUE_APP_APPID,
+            time: new Date().getTime().toString().substr(0, 10),
             session_id: $cookies.isKey('session_id') ? $cookies.get('session_id') : '',
             ...res.data
         };
@@ -59,9 +59,9 @@ instance.interceptors.request.use(res => {
         return res;
     } else if (res.method === 'get' || res.method === 'GET') {
         res.params = {
-            app       : 'web',
-            uid       : process.env.VUE_APP_APPID,
-            time      : new Date().getTime().toString().substr(0, 10),
+            app: 'web',
+            uid: process.env.VUE_APP_APPID,
+            time: new Date().getTime().toString().substr(0, 10),
             session_id: $cookies.isKey('session_id') ? $cookies.get('session_id') : '',
             ...res.params
         };
@@ -70,22 +70,20 @@ instance.interceptors.request.use(res => {
 });
 
 // 响应拦截器
+
 instance.interceptors.response.use(res => {
     if (res.data.session_id != null && (!$cookies.isKey('session_id') || $cookies.get('session_id') !== res.data.session_id)) {
         $cookies.set('session_id', res.data.session_id);
     }
     if (res.status === 200 && res.data.code === 200) {
-        return Promise.resolve(res.data);
+        return res.data;
     } else {
         errorHandle(res);
         return Promise.reject(res);
     }
-}, error => {
-    errorHandle(error);
-    return Promise.reject(error);
 });
 
-function doHttp (url = '', type = 'get', data = {}) {
+function doHttp(url = '', type = 'get', data = {}) {
     if (type === 'get' || type === 'GET') {
         return instance.get(url, {
             params: data

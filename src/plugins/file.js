@@ -1,5 +1,5 @@
 class file {
-    download (name, data) {
+    download(name, data) {
         let dataStr = 'data:audio/wav;base64,' + encodeURIComponent(data);
         let downloadAnchorNode = document.createElement('a');
         downloadAnchorNode.setAttribute('href', dataStr);

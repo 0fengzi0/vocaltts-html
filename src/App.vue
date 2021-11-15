@@ -3,9 +3,9 @@
         <router-view/>
         <!--全局提示条-->
         <v-snackbar
-                v-model='snackBarModel'
-                :color='this.$store.state.snackBar.model.color'
-                right top
+            v-model='snackBarModel'
+            :color='this.$store.state.snackBar.model.color'
+            right top
         >
             {{ $store.state.snackBar.model.message }}
         </v-snackbar>
@@ -27,7 +27,7 @@ export default {
         }
     },
     // 初始化完成
-    mounted () {
+    mounted() {
         console.info(window.document.body.offsetWidth >= 900 ? '当前是电脑页面' : '当前是手机页面');
         console.info('当前环境:' + process.env.VUE_APP_APPID);
     },
