@@ -2,7 +2,7 @@ import HttpClient from '@/plugins/HttpClient';
 
 class SynthApi {
     doSynth(voice_version = '', voice_name = '', text = '', token = '') {
-        return HttpClient.doHttp('vocaltts/synth/dosynth', 'post', {
+        return HttpClient.doHttp('synth/doSynth', 'post', {
             voice_version: voice_version,
             voice_name: voice_name,
             text: text,
