@@ -10,7 +10,7 @@
             <v-card-text class='d-flex flex-column pa-3'>
                 <div class='notice-top d-flex'>
                     <div class='notice-title'>{{ item.title }}</div>
-                    <div class='notice-time'>{{ item.create_time }}</div>
+                    <div class='notice-time'>{{ item.create_date }}</div>
                 </div>
                 <v-divider></v-divider>
                 <div class='notice-body' v-html='item.msg'></div>

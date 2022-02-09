@@ -5,7 +5,7 @@
                  :class="list.animation ? 'hide_placard_list_animation' : ''" class='placard_list'>
                 <div class='placard_head'>
                     <div class='placard_title'>{{ list.title }}</div>
-                    <div class='placard_time'>{{ list.create_time }}</div>
+                    <div class='placard_time'>{{ list.create_date }}</div>
                     <div style='clear: both;'></div>
                 </div>
                 <div class='placard_body'>
