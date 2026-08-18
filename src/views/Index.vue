@@ -8,9 +8,10 @@
 </template>
 
 <script>
+import {defineAsyncComponent} from 'vue';
 
-const PhoneIndex = () => import('../views/Phone/PhoneIndex.vue');
-const PcIndex = () => import('../views/Pc/PcIndex');
+const PhoneIndex = defineAsyncComponent(() => import('../views/Phone/PhoneIndex.vue'));
+const PcIndex = defineAsyncComponent(() => import('../views/Pc/PcIndex'));
 
 export default {
     name: 'Index',

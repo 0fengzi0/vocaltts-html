@@ -1,7 +1,7 @@
 <template>
     <div id='PhoneIndex'>
         <!--头部状态栏-->
-        <v-app-bar color='rgba(255,255,255,0.8)' dense>
+        <v-app-bar color='rgba(255,255,255,0.8)' density='compact'>
             <v-avatar class='mr-2' size='32'>
                 <img alt='5ixf' src='https://s1.ax1x.com/2020/04/17/JVOam8.jpg'/>
             </v-avatar>
@@ -12,20 +12,14 @@
         <!--右侧弹出菜单-->
         <v-navigation-drawer v-model='drawer' clipped fixed right temporary>
             <v-list>
-                <v-list-item-group>
-                    <v-list-item
-                        v-for='(item,index) in phoneMenuList'
-                        :key='index'
-                        @click='chikeMenu(item.id)'
-                    >
-                        <v-list-item-icon>
-                            <v-icon v-text='item.icon'></v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content>
-                            <v-list-item-title v-text='item.text'></v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-list-item-group>
+                <v-list-item
+                    v-for='(item,index) in phoneMenuList'
+                    :key='index'
+                    :prepend-icon='item.icon'
+                    @click='chikeMenu(item.id)'
+                >
+                    <v-list-item-title>{{ item.text }}</v-list-item-title>
+                </v-list-item>
             </v-list>
         </v-navigation-drawer>
         <!--页面-->
@@ -38,9 +32,11 @@
 </template>
 
 <script>
-const PhoneSynth = () => import('@/components/phone/PhoneSynth');
-const PhoneNotice = () => import('@/components/phone/PhoneNotice');
-const PhoneAbout = () => import('@/components/phone/PhoneAbout');
+import {defineAsyncComponent} from 'vue';
+
+const PhoneSynth = defineAsyncComponent(() => import('@/components/phone/PhoneSynth'));
+const PhoneNotice = defineAsyncComponent(() => import('@/components/phone/PhoneNotice'));
+const PhoneAbout = defineAsyncComponent(() => import('@/components/phone/PhoneAbout'));
 
 export default {
     name: 'PhoneIndex',

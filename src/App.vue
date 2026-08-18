@@ -4,8 +4,8 @@
         <!--全局提示条-->
         <v-snackbar
             v-model='snackBarModel'
-            :color='this.$store.state.snackBar.model.color'
-            right top
+            :color='$store.state.snackBar.model.color'
+            location='top right'
         >
             {{ $store.state.snackBar.model.message }}
         </v-snackbar>

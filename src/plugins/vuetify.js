@@ -1,26 +1,38 @@
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
-
-Vue.use(Vuetify);
+import {createVuetify} from 'vuetify';
+import 'vuetify/styles';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
 
 const opts = {
-    icons: {
-        iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
-    },
+    components,
+    directives,
     theme: {
+        defaultTheme: 'dark',
         themes: {
-            dark: true,
+            dark: {
+                colors: {
+                    primary: '#1976D2',
+                    secondary: '#424242',
+                    accent: '#82B1FF',
+                    error: '#FF5252',
+                    info: '#2196F3',
+                    success: '#4CAF50',
+                    warning: '#FFC107',
+                },
+            },
             light: {
-                primary: '#1976D2',
-                secondary: '#424242',
-                accent: '#82B1FF',
-                error: '#FF5252',
-                info: '#2196F3',
-                success: '#4CAF50',
-                warning: '#FFC107',
+                colors: {
+                    primary: '#1976D2',
+                    secondary: '#424242',
+                    accent: '#82B1FF',
+                    error: '#FF5252',
+                    info: '#2196F3',
+                    success: '#4CAF50',
+                    warning: '#FFC107',
+                },
             },
         },
     },
 };
 
-export default new Vuetify(opts);
+export default createVuetify(opts);

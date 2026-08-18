@@ -28,7 +28,7 @@
     <link rel="apple-touch-icon-precomposed" href="https://s1.ax1x.com/2020/04/17/JVOam8.jpg">
     <!-- 百度统计 -->
     <script>
-        if (process.env.VUE_APP_APPID == "admin") {
+        if ("<%= process.env.VUE_APP_APPID %>" == "admin") {
             var _hmt = _hmt || [];
             (function () {
                 var hm = document.createElement("script");

@@ -93,13 +93,14 @@
 </template>
 
 <script>
+import {defineAsyncComponent} from 'vue';
 import VocalApi from '@/api/VocalApi';
 import SynthApi from '@/api/SynthApi';
 import PcFooter from '@/components/pc/PcFooter';
 import VaptchaService from '@/api/VaptchaService';
 import file from '@/plugins/file';
 
-const PcNotice = () => import('@/components/pc/PcNotice');
+const PcNotice = defineAsyncComponent(() => import('@/components/pc/PcNotice'));
 
 export default {
   name: 'PcIndex',

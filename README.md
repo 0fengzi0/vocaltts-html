@@ -8,7 +8,7 @@
 -------------------------------
 ### 在线展示页面
 
-[主站-tts.5ixf.vip](http://tts.5ixf.vip)    
+[主站-tts.5ixf.com](http://tts.5ixf.com)    
 [LastDream-lastdream.net](https://www.lastdream.net/plugin.php?id=LD:VOCALTTS)
 -------------------------------
 ##### (0)准备

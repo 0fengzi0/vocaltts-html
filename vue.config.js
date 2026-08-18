@@ -1,10 +1,11 @@
+const webpack = require('webpack');
+const packageJson = require('./package.json');
 const CompressionPlugin = require('compression-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 
 if (process.env.NODE_ENV === 'production') {
     module.exports = {
-        publicPath: process.env.USE_CDN ? 'https://cdn.jsdelivr.net/gh/0fengzi0/VOCALTTS-dist/' : '',
+        // publicPath: process.env.USE_CDN ? 'https://cdn.jsdelivr.net/gh/0fengzi0/VOCALTTS-dist/' : '',
         // 输出目录
         outputDir: 'dist/' + process.env.VUE_APP_APPID,
         // webpack的相关配置在这里
@@ -12,26 +13,29 @@ if (process.env.NODE_ENV === 'production') {
             plugins: [
                 // Gzip压缩
                 new CompressionPlugin({
-                    algorithm           : 'gzip', //'brotliCompress'
-                    test                : /\.js$|\.html$|\.css/, // + $|\.svg$|\.png$|\.jpg
-                    threshold           : 10240, //对超过10k的数据压缩
+                    algorithm: 'gzip', //'brotliCompress'
+                    test: /\.js$|\.html$|\.css/, // + $|\.svg$|\.png$|\.jpg
+                    threshold: 10240, //对超过10k的数据压缩
                     deleteOriginalAssets: false //不删除原文件
                 }),
                 // 代码清理
                 new TerserPlugin({
-                    cache        : true,
-                    parallel     : true,
-                    sourceMap    : false,
+                    parallel: true,
                     terserOptions: {
                         compress: {
-                            drop_console : true,
+                            drop_console: true,
                             drop_debugger: true,
                         },
                     },
                 }),
-                // vuetify自动导入
-                new VuetifyLoaderPlugin(),
             ]
+        },
+        css: {
+            loaderOptions: {
+                sass: {
+                    implementation: require('sass'),
+                }
+            }
         }
     };
 } else {
@@ -40,14 +44,14 @@ if (process.env.NODE_ENV === 'production') {
 
         // 开发环境配置
         devServer: {
-            disableHostCheck: true,
+            allowedHosts: 'all',
         },
-        // webpack的相关配置在这里
-        configureWebpack: {
-            plugins: [
-                // vuetify自动导入
-                new VuetifyLoaderPlugin(),
-            ]
-        }
     };
 }
+
+// 注入当前版本号（替代直接导入 package.json，webpack5 无法解析 package.json 模块）
+module.exports.chainWebpack = config => {
+    config.plugin('define-app-version').use(webpack.DefinePlugin, [{
+        __APP_VERSION__: JSON.stringify(packageJson.version)
+    }]);
+};

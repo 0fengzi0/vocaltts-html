@@ -31,13 +31,11 @@
             <span class='white-space'></span>
         </p>
         <p>本站建立时间{{ startDay }}，已提供服务{{ runDays }}天，当前版本V{{ version }}</p>
-        <p v-html='record'><!--<img src="../assets/beiantubiao.png" alt="" width="13px" height="13px" />--></p>
+        <p v-html='record'></p>
     </div>
 </template>
 
 <script>
-import config from '/package.json';
-
 export default {
     name: 'PcFooter',
     // 引用的组件
@@ -47,7 +45,7 @@ export default {
             // 建站日期
             startDay: '2018-11-21',
             // 当前版本
-            version: config.version,
+            version: __APP_VERSION__,
             // 运行天数
             runDays: 0,
             // 备案信息

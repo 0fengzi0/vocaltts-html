@@ -34,11 +34,11 @@
     <!--合成参数面板-->
     <v-card class='mt-2 mb-2 ml-auto mr-auto' color='rgba(255,255,255,0.8)' width='94vw'>
       <v-card-text>
-        <v-slider v-model='ttsData.pit' :thumb-size='24' dense disabled label='音高' max='100' min='-100'
+        <v-slider v-model='ttsData.pit' :thumb-size='24' density='compact' disabled label='音高' max='100' min='-100'
                   thumb-label='always'></v-slider>
-        <v-slider v-model='ttsData.vel' :thumb-size='24' dense label='语速' max='100' min='-100'
+        <v-slider v-model='ttsData.vel' :thumb-size='24' density='compact' label='语速' max='100' min='-100'
                   thumb-label='always'></v-slider>
-        <v-slider v-model='ttsData.vol' :thumb-size='24' dense label='音量' max='100' min='-100'
+        <v-slider v-model='ttsData.vol' :thumb-size='24' density='compact' label='音量' max='100' min='-100'
                   thumb-label='always'></v-slider>
       </v-card-text>
     </v-card>

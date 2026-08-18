@@ -46,7 +46,6 @@
 
 <script>
 import PhoneFooter from './PhoneFooter';
-import config from '../../../package.json';
 
 export default {
     name: 'PhoneAbout',
@@ -59,7 +58,7 @@ export default {
             // 运行天数
             runDays: 0,
             // 当前版本
-            version: config.version,
+            version: __APP_VERSION__,
         };
     },
 
