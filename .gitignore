@@ -21,3 +21,5 @@ yarn-error.log*
 *.sw?
 /dist/lastdream
 /dist
+
+/api/*
