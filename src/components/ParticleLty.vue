@@ -1,8 +1,7 @@
 <template>
   <div ref="wrap" class="particle-stage">
-    <!-- 低功耗模式：右下角静态图片，不启动 WebGL -->
-    <img v-if="lowPower && staticUrl" :src="staticUrl" class="static-lty" alt="洛天依" />
-    <div v-else ref="glMount" class="fill-canvas" />
+    <!-- 关闭粒子特效时不渲染任何形象，也不启动 WebGL。 -->
+    <div v-if="!lowPower" ref="glMount" class="fill-canvas" />
   </div>
 </template>
 
@@ -18,7 +17,6 @@ const emit = defineEmits(['ready'])
 
 const wrap = ref(null)
 const glMount = ref(null)
-const staticUrl = ref('')
 
 // 粒子采样目标图（不入库，部署时放置在 public/ 下，按顺序探测）
 const IMAGE_URLS = [
@@ -29,6 +27,7 @@ const IMAGE_URLS = [
 const WORLD_H = 7      // 形象在世界坐标中的高度
 const GATHER_MS = 2200 // 凝聚动画时长
 const CAM_Z = 14
+const CORNER_SCALE = 0.55
 
 function loadImage(url) {
   return new Promise((resolve, reject) => {
@@ -96,19 +95,6 @@ async function sampleParticles(count) {
   return { positions, colors, phases, sizes, count }
 }
 
-/* ==================== 低功耗模式 ==================== */
-async function enterStaticMode() {
-  if (staticUrl.value) {
-    emit('ready')
-    return
-  }
-  try {
-    const { url } = await loadFirstImage()
-    staticUrl.value = url
-  } catch { /* 无图时留空 */ }
-  emit('ready')
-}
-
 /* ==================== 3D 粒子模式 ==================== */
 let three = null
 let gatherPending = false // three 尚未就绪时收到的 gathering 信号
@@ -142,12 +128,21 @@ async function initThree() {
   const halfH = Math.tan((camera.fov / 2) * Math.PI / 180) * CAM_Z
   let halfW = halfH * (wrap.value.clientWidth / Math.max(1, wrap.value.clientHeight))
 
-  // 散落起点：无序铺满全屏可视范围（稍溢出），z 随机深度
+  // 右下角看板位（世界坐标）。粒子组一直停在这里，最终图像也在这里生成。
+  const cornerX = halfW - (WORLD_H * CORNER_SCALE) * 0.5 * 0.62 - 0.4
+  const cornerY = -halfH + (WORLD_H * CORNER_SCALE) * 0.5 + 0.35
+
+  // 散落起点：视觉上无序铺满全屏（略微溢出）。
+  // aStart 会随 group 的右下角平移与 0.55 缩放一起变换，因此先反算为
+  // group 局部坐标，最终渲染出来才是“真正的全屏散落”，而非缩在右下角。
   const starts = new Float32Array(sample.count * 3)
   for (let i = 0; i < sample.count; i++) {
-    starts[i * 3] = (Math.random() * 2 - 1) * halfW * 1.25
-    starts[i * 3 + 1] = (Math.random() * 2 - 1) * halfH * 1.25
-    starts[i * 3 + 2] = (Math.random() - 0.5) * 6
+    const worldX = (Math.random() * 2 - 1) * halfW * 1.25
+    const worldY = (Math.random() * 2 - 1) * halfH * 1.25
+    const worldZ = (Math.random() - 0.5) * 6
+    starts[i * 3] = (worldX - cornerX) / CORNER_SCALE
+    starts[i * 3 + 1] = (worldY - cornerY) / CORNER_SCALE
+    starts[i * 3 + 2] = worldZ / CORNER_SCALE
   }
 
   const geo = new THREE.BufferGeometry()
@@ -192,9 +187,9 @@ async function initThree() {
         vec3 p = mix(aStart, position, g) + swirl;
         // 待机浮动（uIdle 渐入）
         p += uIdle * vec3(
-          sin(uTime * 0.7 + aPhase * 7.0) * 0.045,
-          cos(uTime * 0.55 + aPhase * 5.0) * 0.05,
-          sin(uTime * 0.4 + aPhase * 3.0) * 0.035
+          sin(uTime * 0.7 + aPhase * 7.0) * 0.075,
+          cos(uTime * 0.55 + aPhase * 5.0) * 0.085,
+          sin(uTime * 0.4 + aPhase * 3.0) * 0.06
         );
         vTwinkle = 0.6 + 0.4 * sin(uTime * 2.2 + aPhase * 9.0);
         vec4 mv = modelViewMatrix * vec4(p, 1.0);
@@ -223,7 +218,7 @@ async function initThree() {
   const view = {
     pos: { x: 0, y: 0 },
     x: 0, y: 0,       // 看板位目标，resize 时重算
-    scale: 0.55,
+    scale: CORNER_SCALE,
     idle: 0,
     gatherStart: -1
   }
@@ -287,9 +282,9 @@ async function initThree() {
     uniforms.uIdle.value = view.idle
     const amp = view.idle * 0.7
     group.position.x = view.x
-    group.position.y = view.y + Math.sin(t * 0.8) * 0.18 * amp
-    group.scale.setScalar(view.scale * (1 + Math.sin(t * 1.1) * 0.022 * amp))
-    group.rotation.z = Math.sin(t * 0.35) * 0.02 * amp
+    group.position.y = view.y + Math.sin(t * 0.8) * 0.32 * amp
+    group.scale.setScalar(view.scale * (1 + Math.sin(t * 1.1) * 0.045 * amp))
+    group.rotation.z = Math.sin(t * 0.35) * 0.038 * amp
     group.rotation.y += ((pointer.x * 0.3) - group.rotation.y) * 0.04
     group.rotation.x += ((-pointer.y * 0.15) - group.rotation.x) * 0.04
     renderer.render(scene, camera)
@@ -323,7 +318,8 @@ function destroyThree() {
 watch(() => props.lowPower, async (low) => {
   if (low) {
     destroyThree()
-    await enterStaticMode()
+    // 低功耗模式即关闭形象特效：仅通知外层继续加载流程。
+    emit('ready')
   } else {
     await initThree()
   }
@@ -336,7 +332,7 @@ watch(() => props.gathering, (v) => {
 
 onMounted(async () => {
   if (props.lowPower) {
-    await enterStaticMode()
+    emit('ready')
   } else {
     await initThree()
   }
@@ -362,14 +358,5 @@ onBeforeUnmount(destroyThree)
 .fill-canvas :deep(canvas) {
   width: 100% !important;
   height: 100% !important;
-}
-.static-lty {
-  position: absolute;
-  right: 3%;
-  bottom: 2%;
-  height: 62%;
-  max-width: 40%;
-  object-fit: contain;
-  filter: drop-shadow(0 0 24px rgba(102, 204, 255, 0.55));
 }
 </style>

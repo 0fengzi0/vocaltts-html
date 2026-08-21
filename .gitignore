@@ -23,7 +23,3 @@ yarn-error.log*
 /dist
 
 /api/*
-# 天依形象图（版权素材不入库，部署时放入 public/）
-public/lty.webp
-public/lty.png
-public/lty.jpg
