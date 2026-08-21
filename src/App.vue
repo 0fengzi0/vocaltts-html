@@ -36,32 +36,55 @@
 
         <!-- 合成面板 -->
         <v-card class="glass pa-6 content-item" :class="{ show: contentShown }" elevation="0">
-          <!-- 发音人 -->
-          <div class="text-subtitle-2 mb-2 opacity-80">发音人</div>
-          <v-slide-group show-arrows>
-            <v-slide-group-item v-for="m in models" :key="m.id">
-              <v-card
-                class="speaker-card mr-3"
-                :class="{ active: form.model === m.id }"
-                elevation="0"
-                @click="form.model = m.id"
-              >
-                <div class="d-flex align-center pa-3">
-                  <v-avatar size="44" class="mr-3">
-                    <v-img :src="m.avatar" :alt="m.name" />
-                  </v-avatar>
-                  <div>
-                    <div class="font-weight-medium">{{ m.name }}</div>
-                    <div class="text-caption opacity-70">{{ m.description }}</div>
-                  </div>
-                  <v-icon v-if="form.model === m.id" color="primary" class="ml-3">
-                    mdi-check-circle
-                  </v-icon>
-                </div>
-              </v-card>
-            </v-slide-group-item>
-          </v-slide-group>
-          <div v-if="modelsError" class="text-caption text-error mt-1">{{ modelsError }}</div>
+           <!-- 发音人：角色档案式选择器 -->
+           <div class="speaker-heading">
+             <div>
+               <div class="section-kicker">VOICE LIBRARY</div>
+               <div class="text-subtitle-1 font-weight-medium">选择发音人</div>
+             </div>
+             <div class="speaker-count">
+               <span class="live-dot" /> {{ models.length || 0 }} 个音色
+             </div>
+           </div>
+
+           <div v-if="selectedModel" class="selected-voice glass-inner">
+             <div class="selected-avatar-wrap">
+               <v-avatar size="64" class="selected-avatar">
+                 <v-img :src="selectedModel.avatar" :alt="selectedModel.name" cover />
+               </v-avatar>
+               <span class="avatar-ring" />
+             </div>
+             <div class="selected-copy">
+               <div class="selected-label">CURRENT VOICE</div>
+               <div class="font-display text-h5">{{ selectedModel.name }}</div>
+               <div class="text-caption opacity-70">{{ selectedModel.description || 'VoxCPM 音色' }}</div>
+             </div>
+             <div class="selected-state">
+               <v-icon size="16" color="primary">mdi-check-decagram</v-icon>
+               <span>已选择</span>
+             </div>
+           </div>
+
+           <div v-if="models.length" class="speaker-grid">
+             <button
+               v-for="m in models"
+               :key="m.id"
+               type="button"
+               class="speaker-option"
+               :class="{ active: form.model === m.id }"
+               @click="form.model = m.id"
+             >
+               <span class="option-avatar">
+                 <v-img :src="m.avatar" :alt="m.name" cover />
+               </span>
+               <span class="option-info">
+                 <span class="option-name">{{ m.name }}</span>
+                 <span class="option-desc">{{ m.description || 'VoxCPM 音色' }}</span>
+               </span>
+               <v-icon v-if="form.model === m.id" size="18" color="primary">mdi-check-circle</v-icon>
+             </button>
+           </div>
+           <div v-if="modelsError" class="text-caption text-error mt-1">{{ modelsError }}</div>
 
           <!-- 文本 -->
           <div class="text-subtitle-2 mt-5 mb-2 opacity-80">合成文本</div>
@@ -150,7 +173,7 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useTheme } from 'vuetify'
 import ParticleLty from './components/ParticleLty.vue'
 import AnnouncementsCard from './components/AnnouncementsCard.vue'
@@ -208,6 +231,7 @@ const form = reactive({
   mode: 'standard',
   voiceInstruction: ''
 })
+const selectedModel = computed(() => models.value.find((m) => m.id === form.model) ?? models.value[0] ?? null)
 const loading = ref(false)
 const audio = ref(null)
 const snackbar = reactive({ show: false, text: '', color: 'error' })
@@ -267,22 +291,183 @@ function download() {
   transform: translateY(0);
 }
 
-/* ===== 合成卡片 ===== */
-.speaker-card {
-  border: 1px solid rgba(102, 204, 255, 0.12);
-  border-radius: 16px;
+/* ===== 发音人：角色档案选择器 ===== */
+.speaker-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.section-kicker,
+.selected-label {
+  color: var(--tianyi);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+.speaker-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(160, 190, 215, 0.85);
+  font-size: 0.72rem;
+}
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tianyi);
+  box-shadow: 0 0 8px var(--tianyi);
+}
+.glass-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-height: 92px;
+  margin-bottom: 12px;
+  padding: 13px 16px;
+  overflow: hidden;
+  border: 1px solid rgba(102, 204, 255, 0.3);
+  border-radius: 18px;
+  background: linear-gradient(115deg, rgba(102, 204, 255, 0.16), rgba(118, 85, 196, 0.06));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 5px 22px rgba(102, 204, 255, 0.1);
+}
+.glass-inner::after {
+  position: absolute;
+  top: -55px;
+  right: 10%;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(102, 204, 255, 0.16), transparent 70%);
+  content: '';
+  pointer-events: none;
+}
+.selected-avatar-wrap {
+  position: relative;
+  flex: 0 0 64px;
+  height: 64px;
+  isolation: isolate;
+}
+.selected-avatar-wrap::before,
+.selected-avatar-wrap::after {
+  position: absolute;
+  z-index: -1;
+  inset: -4px;
+  border: 1px solid rgba(102, 204, 255, .7);
+  border-radius: 50%;
+  content: '';
+  pointer-events: none;
+  animation: voice-ripple 2.8s cubic-bezier(.16, .7, .3, 1) infinite;
+}
+.selected-avatar-wrap::after {
+  animation-delay: 1.4s;
+}
+.selected-avatar {
+  position: relative;
+  z-index: 1;
+  border: 2px solid rgba(234, 255, 255, .8);
+  box-shadow: 0 0 18px rgba(102, 204, 255, .55);
+}
+.avatar-ring {
+  position: absolute;
+  inset: -5px;
+  border: 1px solid rgba(102, 204, 255, .55);
+  border-radius: 50%;
+  animation: avatar-orbit 3.2s linear infinite;
+}
+.selected-copy { min-width: 0; }
+.selected-copy .text-h5 { line-height: 1.1; }
+.selected-state {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  color: var(--tianyi);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+.speaker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.speaker-option {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 9px;
+  color: inherit;
+  text-align: left;
   cursor: pointer;
-  transition: all 0.25s ease;
-  background: rgba(102, 204, 255, 0.04);
+  border: 1px solid rgba(102, 204, 255, .12);
+  border-radius: 13px;
+  outline: none;
+  background: rgba(102, 204, 255, .035);
+  transition: transform .23s ease, border-color .23s ease, background .23s ease, box-shadow .23s ease;
 }
-.speaker-card:hover {
+.speaker-option:hover,
+.speaker-option:focus-visible {
   transform: translateY(-2px);
-  border-color: rgba(102, 204, 255, 0.4);
+  border-color: rgba(102, 204, 255, .5);
+  background: rgba(102, 204, 255, .10);
 }
-.speaker-card.active {
+.speaker-option.active {
   border-color: var(--tianyi);
-  background: rgba(102, 204, 255, 0.12);
-  box-shadow: 0 0 18px rgba(102, 204, 255, 0.25);
+  background: rgba(102, 204, 255, .14);
+  box-shadow: 0 0 15px rgba(102, 204, 255, .16);
+}
+.option-avatar {
+  display: block;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 50%;
+}
+.option-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  margin-left: 8px;
+}
+.option-name,
+.option-desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.option-name { font-size: .78rem; font-weight: 600; }
+.option-desc { margin-top: 2px; opacity: .6; font-size: .63rem; }
+@keyframes avatar-orbit {
+  to { transform: rotate(360deg); }
+}
+@keyframes voice-ripple {
+  0% {
+    opacity: 0;
+    transform: scale(.92);
+    box-shadow: 0 0 0 0 rgba(102, 204, 255, .48);
+  }
+  12% { opacity: .75; }
+  72% { opacity: .18; }
+  100% {
+    opacity: 0;
+    transform: scale(1.95);
+    box-shadow: 0 0 18px 4px rgba(102, 204, 255, 0);
+  }
+}
+@media (max-width: 560px) {
+  .speaker-grid { grid-template-columns: 1fr; }
+  .option-avatar { flex-basis: 38px; width: 38px; height: 38px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .selected-avatar-wrap::before,
+  .selected-avatar-wrap::after,
+  .avatar-ring { animation: none; }
 }
 
 .synth-btn {
