@@ -45,6 +45,14 @@ if (process.env.NODE_ENV === 'production') {
         // 开发环境配置
         devServer: {
             allowedHosts: 'all',
+            // 把前端请求代理到本地 Go API，避免浏览器跨域 / localhost 不可达问题
+            proxy: {
+                '/vocal': {target: 'http://localhost:8080', changeOrigin: true},
+                '/synth': {target: 'http://localhost:8080', changeOrigin: true},
+                '/placard': {target: 'http://localhost:8080', changeOrigin: true},
+                '/api': {target: 'http://localhost:8080', changeOrigin: true},
+                '/vocaltts': {target: 'http://localhost:8080', changeOrigin: true},
+            },
         },
     };
 }

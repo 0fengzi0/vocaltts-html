@@ -8,7 +8,7 @@
             <div
                 v-for='(list, index) in vocalList'
                 :key='index'
-                :class="list.status === 'TRUE' ? (ttsData.voice === index ? 'chickId' : 'canChoose') : 'cantChoose'"
+                :class="list.status === 'true' ? (ttsData.voice === index ? 'chickId' : 'canChoose') : 'cantChoose'"
                 class='vocal'
                 @click='chickVoice(index)'
             >
@@ -46,11 +46,17 @@
                        step='10'
                        type='range' value='0'/>
               </div>
-              <div class='setting'>
-                <span class='parameterName'>仅支持中文。敬请期待...</span>
-                <!-- <input class="parameterInput" type="range" name="more" step="0" min="0" max="100"   /> -->
-              </div>
               <div style='clear: both;'></div>
+              <div class='modeSetting'>
+                <span class='parameterName'>模式</span>
+                <button :class="ttsData.mode === 'standard' ? 'modeActive' : ''" class='modeBtn'
+                        @click='ttsData.mode = "standard"'>标准模式</button>
+                <button :class="ttsData.mode === 'emotion' ? 'modeActive' : ''" class='modeBtn'
+                        @click='ttsData.mode = "emotion"'>情感模式</button>
+              </div>
+              <textarea v-if="ttsData.mode === 'emotion'" v-model='ttsData.controlInstruction'
+                        class='modeInput' rows='2' placeholder='控制指令，如：语速稍快、开心的语气'></textarea>
+              <!-- 标准模式无需输入：转录文本由服务端硬编码 -->
             </div>
             <div class='ttsConfig-right'>
               <div class='ttsPlay'>
@@ -116,10 +122,28 @@ export default {
         {
           id: '1',
           code: 'lty',
-          name: '洛天依',
-          version: 't2',
+          name: '洛天依·日常',
+          version: 'V3',
           headimg: 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
-          presentation: '该音源为T2音源',
+          presentation: '默认音色',
+          status: 'true'
+        },
+        {
+          id: '2',
+          code: 'lty_gan',
+          name: '洛天依·元气',
+          version: 'V3',
+          headimg: 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
+          presentation: '元气语气',
+          status: 'true'
+        },
+        {
+          id: '3',
+          code: 'lty_91',
+          name: '洛天依·Vocaloid',
+          version: 'V3',
+          headimg: 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
+          presentation: 'Vocaloid 调教版',
           status: 'true'
         }
       ],
@@ -133,7 +157,11 @@ export default {
         voice: 0,
         pit: 0,
         vel: 0,
-        vol: 0
+        vol: 0,
+        // 模式：standard 标准模式(默认) / emotion 情感模式
+        mode: 'standard',
+        // 可控克隆时的控制指令（极致克隆的转录文本由服务端硬编码，前端不提供）
+        controlInstruction: ''
       },
       // 历史合成参数
       oldTTSData: {
@@ -141,7 +169,9 @@ export default {
         voice: 0,
         pit: 0,
         vel: 0,
-        vol: 0
+        vol: 0,
+        mode: 'standard',
+        controlInstruction: ''
       },
       // 最大输入字数
       maxInput: 100
@@ -261,6 +291,9 @@ export default {
           that.vocalList[that.ttsData.voice]['code'],
           that.ttsData.text,
           // vaptchaObj.getToken()
+          '',
+          that.ttsData.mode,
+          that.ttsData.controlInstruction
       ).then(function (res) {
         that.waveData = res.data;
         // 深拷贝,记录历史合成数据
@@ -446,7 +479,7 @@ p {
 
 .textInput {
   padding: 5px 5px 10px 5px;
-  flex: 0 0 200px;
+  flex: 0 0 150px;
   width: 100%;
   border-bottom: solid 1px #bfbfbf;
 }
@@ -498,6 +531,51 @@ p {
   margin: 16px 0 0 0;
   float: right;
   width: 160px;
+}
+
+.modeSetting {
+  width: 230px;
+  height: 34px;
+  line-height: 34px;
+  padding-left: 10px;
+}
+
+.modeBtn {
+  width: 66px;
+  height: 26px;
+  margin: 4px 4px 0 0;
+  border: 1px solid #bfbfbf;
+  border-radius: 5px;
+  background: transparent;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.modeBtn:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.modeActive {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.modeInput {
+  width: 230px;
+  height: 42px;
+  margin: 2px 0 0 10px;
+  padding: 4px 6px;
+  resize: none;
+  border: 1px solid #bfbfbf;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: white;
+  font-size: 13px;
+  outline: none;
+}
+
+.modeInput::placeholder {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .ttsConfig-right {

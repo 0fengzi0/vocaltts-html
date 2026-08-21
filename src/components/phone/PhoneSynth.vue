@@ -7,6 +7,22 @@
                     placeholder='你好，语音时代'></v-textarea>
       </v-card-text>
     </v-card>
+    <!--克隆模式卡片-->
+    <v-card class='mt-2 mb-1 ml-auto mr-auto' color='rgba(255,255,255,0.8)' width='94vw'>
+      <v-card-text class='pl-2 pr-2 pt-2 pb-2'>
+        <div class='mode-select d-flex align-center'>
+          <span class='mode-label'>合成模式</span>
+          <v-btn :color="ttsData.mode === 'standard' ? 'primary' : ''" class='mode-btn' small outlined
+                 @click='ttsData.mode = "standard"'>标准模式</v-btn>
+          <v-btn :color="ttsData.mode === 'emotion' ? 'primary' : ''" class='mode-btn' small outlined
+                 @click='ttsData.mode = "emotion"'>情感模式</v-btn>
+        </div>
+        <v-textarea v-if="ttsData.mode === 'emotion'" v-model='ttsData.controlInstruction'
+                    class='mode-input' :rows='2' auto-grow clearable no-resize
+                    placeholder='控制指令，如：语速稍快、开心的语气'></v-textarea>
+        <!-- 标准模式无需输入：转录文本由服务端硬编码 -->
+      </v-card-text>
+    </v-card>
     <!--发音人选项卡-->
     <v-card class='mt-2 mb-2 ml-auto mr-auto' color='rgba(255,255,255,0.8)' width='94vw'>
       <v-card-text class='pl-1 pr-1 pt-0 pb-0'>
@@ -80,7 +96,11 @@ export default {
         voice: 0,
         pit: 0,
         vel: 0,
-        vol: 0
+        vol: 0,
+        // 模式：standard 标准模式(默认) / emotion 情感模式
+        mode: 'standard',
+        // 可控克隆时的控制指令（极致克隆的转录文本由服务端硬编码，前端不提供）
+        controlInstruction: ''
       },
       // 历史合成参数
       oldTTSData: {
@@ -88,17 +108,37 @@ export default {
         voice: 0,
         pit: 0,
         vel: 0,
-        vol: 0
+        vol: 0,
+        mode: 'standard',
+        controlInstruction: ''
       },
       // 发音人列表
       vocalList: [
         {
           id: '1',
           code: 'lty',
-          name: '洛天依',
-          version: 't2',
+          name: '洛天依·日常',
+          version: 'V3',
           headimg: 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
-          presentation: '该音源为T2音源',
+          presentation: '默认音色',
+          status: 'true'
+        },
+        {
+          id: '2',
+          code: 'lty_gan',
+          name: '洛天依·元气',
+          version: 'V3',
+          headimg: 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
+          presentation: '元气语气',
+          status: 'true'
+        },
+        {
+          id: '3',
+          code: 'lty_91',
+          name: '洛天依·Vocaloid',
+          version: 'V3',
+          headimg: 'https://s2.ax1x.com/2019/11/16/M0mbDS.png',
+          presentation: 'Vocaloid 调教版',
           status: 'true'
         }
       ],
@@ -121,7 +161,7 @@ export default {
   mounted() {
     let that = this;
     // 获取发音人列表
-    // that.getVocaList();
+    that.getVocaList();
   },
 
   // 其他函数
@@ -188,6 +228,9 @@ export default {
           that.vocalList[that.ttsData.voice]['code'],
           that.ttsData.text,
           // vaptchaObj.getToken()
+          '',
+          that.ttsData.mode,
+          that.ttsData.controlInstruction
       ).then(function (res) {
         console.log('返回的数据' + res);
         that.waveData = res.data;
@@ -230,7 +273,9 @@ export default {
         voice: 0,
         pit: 0,
         vel: 0,
-        vol: 0
+        vol: 0,
+        mode: 'standard',
+        controlInstruction: ''
       };
       // 重置发音人
       that.chooseCanUseVoice();
@@ -336,6 +381,22 @@ export default {
 
 .chickBGC {
   background-color: #abb2bf !important;
+}
+
+.mode-select {
+  .mode-label {
+    margin-right: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .mode-btn {
+    margin-right: 8px;
+  }
+}
+
+.mode-input {
+  margin-top: 6px;
 }
 
 .pageEnd {

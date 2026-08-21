@@ -33,8 +33,8 @@ function errorHandle(res) {
 // 创建axios实例
 const instance = axios.create({
     baseURL: process.env.VUE_APP_HOST == null ? 'https://ce47f01b-122e-42fe-b15b-bc743b1f5f3c.bspapp.com/vocaltts/' : process.env.VUE_APP_HOST,
-    // 超时 15秒
-    timeout: 1000 * 15,
+    // 超时 2分钟（VoxCPM 走 HF 排队，单次合成可能超过 90 秒）
+    timeout: 1000 * 120,
     // 跨域请求时是否需要使用凭证,默认为false
     withCredentials: true,
     // 请求头
