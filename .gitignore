@@ -19,7 +19,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-**/dist/**
+dist
 
 /api/*
 dist.zip
