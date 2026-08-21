@@ -1,0 +1,17 @@
+{
+  "launchedAt": "2020-01-01T00:00:00+08:00",
+  "links": [
+    {
+      "name": "VocalTTS 源码",
+      "url": "https://github.com/0fengzi0/vocaltts-html"
+    },
+    {
+      "name": "VocalTTS 主站",
+      "url": "http://tts.5ixf.com"
+    },
+    {
+      "name": "LastDream",
+      "url": "https://www.lastdream.net/plugin.php?id=LD:VOCALTTS"
+    }
+  ]
+}
