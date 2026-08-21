@@ -125,9 +125,11 @@
           </v-expand-transition>
         </v-card>
 
-        <AnnouncementsCard class="mt-5 content-item" :class="{ show: contentShown }" />
       </v-container>
     </v-main>
+
+    <!-- 公告：顶栏下方玻璃横幅（最新一条），点击展开完整列表弹窗 -->
+    <AnnouncementsCard v-if="contentShown" />
 
     <!-- 开场加载层：粒子聚合期间的全屏遮罩 -->
     <transition name="loader-fade">
