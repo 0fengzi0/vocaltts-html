@@ -149,6 +149,7 @@
         </v-card>
 
       </v-container>
+      <SiteFooter :visible="contentShown" />
     </v-main>
 
     <!-- 公告：顶栏下方玻璃横幅（最新一条），点击展开完整列表弹窗 -->
@@ -177,6 +178,7 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useTheme } from 'vuetify'
 import ParticleLty from './components/ParticleLty.vue'
 import AnnouncementsCard from './components/AnnouncementsCard.vue'
+import SiteFooter from './components/SiteFooter.vue'
 import { extFromMime, fetchModels, synthesize } from './api/tts'
 
 const theme = useTheme()
