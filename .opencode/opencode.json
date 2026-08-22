@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "isc": {
+      "models": {
+        "stealth/ox-alpha": {
+          "name": "Ox Alpha",
+          "limit": {
+            "context": 1000000,
+            "output": 256000
+          },
+          "modalities": {
+            "input": ["text", "image", "pdf"],
+            "output": ["text"]
+          },
+          "variants": {
+            "max": {}
+          }
+        }
+      }
+    }
+  }
+}
